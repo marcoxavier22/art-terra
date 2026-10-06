@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local env / secrets
+.env
+.env.*
+!.env.example
+
+# tests
+/test-results
+/playwright-report
+/.local-stack
+
+# heavy source assets (PDF do catálogo fica fora do git)
+/assets-origem/catalogo-art-terra-2025.pdf
