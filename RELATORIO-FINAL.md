@@ -10,8 +10,8 @@
 | Supabase    | projeto `art-terra` (`eawxntdmivtppwmypefo`), São Paulo |
 | Vercel      | projeto `art-terra`, funções em `gru1`                  |
 
-**Credenciais:** nenhuma senha foi criada nem gravada no repositório. O usuário administrador
-ainda precisa ser criado pelo dono do projeto (passo 1 de "Pendências").
+**Credenciais:** nenhuma senha foi criada nem gravada no repositório. A senha do administrador foi
+definida pelo próprio dono no Supabase.
 
 ## O que foi feito
 
@@ -62,19 +62,21 @@ produtos e fotos do Catálogo 2025, testes automatizados, deploy contínuo (push
 - [x] Deploy na Vercel com rotas testadas em produção
 - [x] Sem rolagem horizontal de 360 a 1536 px (local) e em 375 px (produção)
 
-## Pendências (só o dono da conta consegue fazer)
+## Configuração de acesso (feita em 07/10/2026)
 
-1. **Criar o administrador:** Supabase → Authentication → Users → _Add user_ (e-mail + senha,
-   _Auto Confirm_). Depois, no SQL Editor:
-   `insert into public.admin_users (user_id) values ('<UUID_DO_USUARIO>');`
-2. **Desativar cadastro público:** Authentication → Sign In / Providers → Email → desligar
-   _Allow new users to sign up_.
-3. **URLs de autenticação:** Authentication → URL Configuration → _Site URL_
-   `https://art-terra-five.vercel.app` e _Redirect URL_
-   `https://art-terra-five.vercel.app/admin/auth/callback` (necessário para "Esqueci minha senha").
-4. **Confirmar o WhatsApp:** o site usa (24) 99229-0708; o PDF do catálogo traz (24) 99201-1676.
-5. Conferir no painel da Vercel se Analytics e Speed Insights estão ligados, e olhar os logs de
-   execução (a integração usada no deploy não tem permissão de leitura de logs).
+- Administrador: `marcotuliobatistaxavier@gmail.com` (usuário criado pelo dono no Supabase e
+  liberado em `admin_users`). A senha é a definida na criação; se precisar, use "Esqueci minha
+  senha" na tela de login.
+- Site URL `https://art-terra-five.vercel.app` e Redirect URL
+  `https://art-terra-five.vercel.app/**` configuradas.
+- Cadastro público desligado (`disable_signup = true`).
+
+## Pendências
+
+1. Entrar no painel e cadastrar um produto de teste (login, upload e ordenação ainda não foram
+   exercitados em produção).
+2. **Confirmar o WhatsApp:** o site usa (24) 99229-0708; o PDF do catálogo traz (24) 99201-1676.
+3. Conferir na Vercel se Analytics e Speed Insights estão ligados e olhar os logs de execução.
 
 ## Não feito
 
