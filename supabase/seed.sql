@@ -83,7 +83,7 @@ with dados (cat, ordem, slug, nome, descricao, medidas, rendimento, pecas_m2, fa
    'Cobogó com vazado em formato de folha na diagonal, que permite paginações variadas. Acabamento nas duas faces.',
    '[{"rotulo":null,"valor":"30x30x07"}]'::jsonb, '12 pç/m²', 12, 'dupla_face', null, 'Áreas internas e externas', null, false),
   ('cobogos', 7, 'cobogo-l', 'Cobogó L',
-   'Cobogó de desenho minimalista com moldura em L, para painéis de linhas retas. Acabamento nas duas faces.',
+   'Cobogó de desenho minimalista com vazado em formato de L, para painéis de linhas retas. Acabamento nas duas faces.',
    '[{"rotulo":null,"valor":"39x39x07"}]'::jsonb, '07 pç/m²', 7, 'dupla_face', null, 'Áreas internas e externas', null, false),
   ('cobogos', 8, 'cobogo-labirinto', 'Cobogó Labirinto',
    'Cobogó com faixas horizontais e verticais intercaladas, que formam um efeito de labirinto no conjunto.',
@@ -98,7 +98,7 @@ with dados (cat, ordem, slug, nome, descricao, medidas, rendimento, pecas_m2, fa
    'Cobogó com recorte triangular em diagonal, que gera jogos de luz e sombra. Disponível com acabamento em uma face ou nas duas.',
    '[{"rotulo":null,"valor":"30x30x07"}]'::jsonb, '12 pç/m²', 12, 'uma_ou_dupla', null, 'Áreas internas e externas', null, false),
   ('cobogos', 12, 'cobogo-u', 'Cobogó U',
-   'Cobogó com moldura em U, que pode receber floreira para compor jardins verticais. Acabamento nas duas faces.',
+   'Cobogó de moldura aberta que pode receber floreira, ideal para compor jardins verticais. Acabamento nas duas faces.',
    '[{"rotulo":null,"valor":"39x39x07"}]'::jsonb, '07 pç/m²', 7, 'dupla_face', 'com ou sem floreira', 'Áreas internas e externas', null, false),
 
   -- Pisos

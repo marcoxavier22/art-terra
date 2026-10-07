@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { WhatsAppIcon } from '@/components/ui/icons';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Logo } from './logo';
+import { LogoLockup } from './logo';
 
 function isActive(pathname: string, href: string) {
   return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
@@ -40,7 +40,7 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
     >
       <div className="container-site flex h-[68px] items-center justify-between gap-4">
         <Link href="/" aria-label="Art Terra — página inicial" className="shrink-0 rounded-md">
-          <Logo priority className="h-[46px] sm:h-[50px]" />
+          <LogoLockup />
         </Link>
 
         <nav aria-label="Navegação principal" className="hidden md:block">
@@ -74,9 +74,15 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
 
         <div className="flex items-center gap-2">
           <Button asChild variant="green" className="hidden md:inline-flex">
-            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Fale no WhatsApp"
+            >
               <WhatsAppIcon />
-              Fale no WhatsApp
+              <span className="lg:hidden">WhatsApp</span>
+              <span className="hidden lg:inline">Fale no WhatsApp</span>
             </a>
           </Button>
 

@@ -1,14 +1,13 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
+/** Full stacked logo (as in the printed catalogue). Best on large sizes, e.g. the footer. */
 export function Logo({
   variant = 'color',
   className,
-  priority = false,
 }: {
   variant?: 'color' | 'white';
   className?: string;
-  priority?: boolean;
 }) {
   return (
     <Image
@@ -17,8 +16,35 @@ export function Logo({
       width={244}
       height={122}
       unoptimized
-      priority={priority}
-      className={cn('h-12 w-auto', className)}
+      className={cn('h-16 w-auto', className)}
     />
+  );
+}
+
+/**
+ * Horizontal lockup for the header: the brand mark plus the name set in live text,
+ * so "ART TERRA" stays crisp and readable at 68px of header height.
+ */
+export function LogoLockup({ className }: { className?: string }) {
+  return (
+    <span className={cn('flex items-center gap-2.5', className)}>
+      <Image
+        src="/brand/icon.svg"
+        alt=""
+        width={154}
+        height={122}
+        unoptimized
+        priority
+        className="h-11 w-auto sm:h-12"
+      />
+      <span className="flex flex-col leading-none">
+        <span className="font-heading text-[1.3rem] font-extrabold tracking-tight text-brand-green sm:text-[1.45rem]">
+          ART TERRA
+        </span>
+        <span className="mt-1 hidden font-heading text-[0.56rem] font-semibold tracking-[0.2em] text-brand-green/80 uppercase min-[400px]:block md:hidden lg:block">
+          Pisos · Vasos · Revestimentos
+        </span>
+      </span>
+    </span>
   );
 }
