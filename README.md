@@ -4,6 +4,16 @@ Site institucional da **Art Terra** (Pisos · Vasos · Revestimentos, Pinheiral/
 público navegável e painel administrativo para o cliente gerenciar produtos, categorias, cores,
 galeria, configurações e mensagens — sem novo deploy a cada alteração.
 
+## Produção
+
+|             |                                                                             |
+| ----------- | --------------------------------------------------------------------------- |
+| Site        | https://art-terra-five.vercel.app                                           |
+| Painel      | https://art-terra-five.vercel.app/admin                                     |
+| Repositório | https://github.com/marcoxavier22/art-terra (push na `main` publica sozinho) |
+| Vercel      | projeto `art-terra`, funções em São Paulo (`gru1`)                          |
+| Supabase    | projeto `art-terra` (`eawxntdmivtppwmypefo`), região São Paulo              |
+
 ## Stack
 
 | Camada      | Tecnologia                                                                           |
