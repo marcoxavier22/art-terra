@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: { default: 'Painel', template: '%s | Painel Art Terra' },
@@ -6,5 +7,15 @@ export const metadata: Metadata = {
 };
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <Toaster
+        position="top-center"
+        richColors
+        closeButton
+        toastOptions={{ style: { fontFamily: 'var(--font-inter)', fontSize: '0.95rem' } }}
+      />
+    </>
+  );
 }

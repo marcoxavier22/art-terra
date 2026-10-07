@@ -14,6 +14,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Always put <title>/<meta> in the initial <head> (no streamed metadata), for every crawler.
+  htmlLimitedBots: /.*/,
+  experimental: { optimizePackageImports: ['radix-ui', 'lucide-react'] },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 30,

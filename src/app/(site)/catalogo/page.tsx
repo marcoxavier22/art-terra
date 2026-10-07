@@ -8,8 +8,6 @@ import { getCatalogSafe, getSettings } from '@/lib/data';
 import { breadcrumbJsonLd } from '@/lib/seo';
 import { retryCatalog } from './actions';
 
-export const revalidate = 3600;
-
 export const metadata: Metadata = {
   title: { absolute: 'Catálogo de Pisos, Cobogós e Bordas Atérmicas | Art Terra' },
   description:
@@ -17,7 +15,14 @@ export const metadata: Metadata = {
   alternates: { canonical: '/catalogo' },
 };
 
-export default async function CatalogPage() {
+export default async function CatalogPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  // Reading the query on the server renders the filtered grid into the HTML (good for SEO
+  // and first paint) instead of leaving it to the browser. Data still comes from the cache.
+  await searchParams;
   const [settings, catalog] = await Promise.all([getSettings(), getCatalogSafe()]);
 
   return (

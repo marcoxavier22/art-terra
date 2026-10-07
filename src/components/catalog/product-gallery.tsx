@@ -4,8 +4,14 @@ import Image from 'next/image';
 import { ZoomIn } from 'lucide-react';
 import { BLUR_DATA_URL } from '@/lib/site';
 import { cn } from '@/lib/utils';
-import { Lightbox, type LightboxImage } from '@/components/site/lightbox';
+import dynamic from 'next/dynamic';
+import type { LightboxImage } from '@/components/site/lightbox';
 import { ImagePlaceholder } from './product-image';
+
+// Loaded only when a photo is opened: keeps the zoom viewer out of the first-load JavaScript.
+const Lightbox = dynamic(() => import('@/components/site/lightbox').then((m) => m.Lightbox), {
+  ssr: false,
+});
 
 export function ProductGallery({ images, nome }: { images: LightboxImage[]; nome: string }) {
   const [selected, setSelected] = React.useState(0);
@@ -79,15 +85,17 @@ export function ProductGallery({ images, nome }: { images: LightboxImage[]; nome
         </ul>
       ) : null}
 
-      <Lightbox
-        images={images}
-        index={lightbox}
-        onIndexChange={(i) => {
-          setLightbox(i);
-          setSelected(i);
-        }}
-        onClose={() => setLightbox(null)}
-      />
+      {lightbox !== null ? (
+        <Lightbox
+          images={images}
+          index={lightbox}
+          onIndexChange={(i) => {
+            setLightbox(i);
+            setSelected(i);
+          }}
+          onClose={() => setLightbox(null)}
+        />
+      ) : null}
     </div>
   );
 }

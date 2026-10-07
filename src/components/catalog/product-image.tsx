@@ -49,6 +49,7 @@ export function ProductImage({
       fill
       sizes={sizes}
       priority={priority}
+      fetchPriority={priority ? 'high' : undefined}
       placeholder="blur"
       blurDataURL={BLUR_DATA_URL}
       className={cn('object-cover', className)}

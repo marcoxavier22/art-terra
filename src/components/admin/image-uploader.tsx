@@ -17,10 +17,10 @@ export function ProgressBar({ value, label }: { value: number; label: string }) 
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={label}
-      className="h-2 w-full overflow-hidden rounded-full bg-line"
+      className="bg-line h-2 w-full overflow-hidden rounded-full"
     >
       <div
-        className="h-full rounded-full bg-brand-orange transition-[width] duration-200"
+        className="bg-brand-orange h-full rounded-full transition-[width] duration-200"
         style={{ width: `${value}%` }}
       />
     </div>
@@ -87,7 +87,7 @@ export function ImageUploader({
 
   return (
     <div>
-      <p id={`${id}-label`} className="mb-1.5 text-sm font-semibold text-ink">
+      <p id={`${id}-label`} className="text-ink mb-1.5 text-sm font-semibold">
         {label}
       </p>
       <div
@@ -102,7 +102,7 @@ export function ImageUploader({
           void handle(e.dataTransfer.files);
         }}
         className={cn(
-          'relative overflow-hidden rounded-[12px] border-2 border-dashed bg-sand/60 transition-colors',
+          'bg-sand/60 relative overflow-hidden rounded-[12px] border-2 border-dashed transition-colors',
           aspect,
           dragOver ? 'border-brand-orange bg-brand-orange/10' : 'border-line',
         )}
@@ -123,7 +123,7 @@ export function ImageUploader({
             onClick={() => fileRef.current?.click()}
             disabled={busy}
             aria-labelledby={`${id}-label`}
-            className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center text-muted hover:text-brand-green"
+            className="text-muted hover:text-brand-green absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center"
           >
             <ImagePlus className="size-9" aria-hidden />
             <span className="text-sm font-semibold">Toque para escolher a foto</span>
@@ -132,9 +132,9 @@ export function ImageUploader({
         )}
         {busy ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/85 p-6">
-            <Loader2 className="size-7 animate-spin text-brand-green" aria-hidden />
+            <Loader2 className="text-brand-green size-7 animate-spin" aria-hidden />
             <ProgressBar value={progress} label={`Enviando ${label}`} />
-            <span className="text-sm font-semibold text-ink">Enviando… {progress}%</span>
+            <span className="text-ink text-sm font-semibold">Enviando… {progress}%</span>
           </div>
         ) : null}
       </div>
@@ -144,16 +144,20 @@ export function ImageUploader({
           type="button"
           onClick={() => fileRef.current?.click()}
           disabled={busy}
-          className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-line bg-white px-3.5 text-sm font-semibold text-brand-green hover:border-brand-green disabled:opacity-50"
+          className="border-line text-brand-green hover:border-brand-green inline-flex min-h-11 items-center gap-2 rounded-[10px] border bg-white px-3.5 text-sm font-semibold disabled:opacity-50"
         >
-          {value ? <RefreshCw className="size-4" aria-hidden /> : <ImagePlus className="size-4" aria-hidden />}
+          {value ? (
+            <RefreshCw className="size-4" aria-hidden />
+          ) : (
+            <ImagePlus className="size-4" aria-hidden />
+          )}
           {value ? 'Trocar' : 'Escolher'}
         </button>
         <button
           type="button"
           onClick={() => cameraRef.current?.click()}
           disabled={busy}
-          className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-line bg-white px-3.5 text-sm font-semibold text-brand-green hover:border-brand-green disabled:opacity-50 lg:hidden"
+          className="border-line text-brand-green hover:border-brand-green inline-flex min-h-11 items-center gap-2 rounded-[10px] border bg-white px-3.5 text-sm font-semibold disabled:opacity-50 lg:hidden"
         >
           <Camera className="size-4" aria-hidden />
           Tirar foto
@@ -163,14 +167,14 @@ export function ImageUploader({
             type="button"
             onClick={() => onChange(null)}
             disabled={busy}
-            className="inline-flex min-h-11 items-center gap-2 rounded-[10px] px-3.5 text-sm font-semibold text-danger hover:bg-danger/8 disabled:opacity-50"
+            className="text-danger hover:bg-danger/8 inline-flex min-h-11 items-center gap-2 rounded-[10px] px-3.5 text-sm font-semibold disabled:opacity-50"
           >
             <Trash2 className="size-4" aria-hidden />
             Remover
           </button>
         ) : null}
       </div>
-      {hint ? <p className="mt-1.5 text-sm text-muted">{hint}</p> : null}
+      {hint ? <p className="text-muted mt-1.5 text-sm">{hint}</p> : null}
 
       <input
         ref={fileRef}

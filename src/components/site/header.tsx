@@ -39,8 +39,9 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
       )}
     >
       <div className="container-site flex h-[68px] items-center justify-between gap-4">
-        <Link href="/" aria-label="Art Terra — página inicial" className="shrink-0 rounded-md">
+        <Link href="/" className="shrink-0 rounded-md">
           <LogoLockup />
+          <span className="sr-only"> — página inicial</span>
         </Link>
 
         <nav aria-label="Navegação principal" className="hidden md:block">

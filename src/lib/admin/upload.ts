@@ -163,5 +163,7 @@ export async function discardUpload(url: string | null | undefined) {
   if (!url.startsWith(prefix)) return;
   const [bucket, ...rest] = decodeURIComponent(url.slice(prefix.length)).split('/');
   if (!rest.length) return;
-  await createClient().storage.from(bucket).remove([rest.join('/')]);
+  await createClient()
+    .storage.from(bucket)
+    .remove([rest.join('/')]);
 }

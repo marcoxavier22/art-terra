@@ -22,7 +22,11 @@ export function Footer({
     <footer className="concrete-grain bg-brand-green-dark text-white">
       <div className="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1fr_1.3fr] lg:gap-12">
         <div>
-          <Link href="/" aria-label="Art Terra — página inicial" className="inline-block rounded">
+          <Link
+            href="/"
+            aria-label="Art Terra Pisos · Vasos · Revestimentos — página inicial"
+            className="inline-block rounded"
+          >
             <Logo variant="white" className="h-16" />
           </Link>
           <p className="mt-5 max-w-xs leading-relaxed text-white/75">

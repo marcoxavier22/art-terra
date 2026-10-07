@@ -3,12 +3,17 @@ import { NotAuthorizedError } from './auth';
 import { GENERIC_ERROR, type ActionResult } from './result';
 
 /** Runs a Server Action body, turning unexpected failures into a friendly message. */
-export async function run<T>(scope: string, fn: () => Promise<ActionResult<T>>): Promise<ActionResult<T>> {
+export async function run<T>(
+  scope: string,
+  fn: () => Promise<ActionResult<T>>,
+): Promise<ActionResult<T>> {
   try {
     return await fn();
   } catch (error) {
     if (error instanceof NotAuthorizedError) return { ok: false, error: error.message };
-    console.error(`[admin:${scope}] ${error instanceof Error ? error.message : 'erro desconhecido'}`);
+    console.error(
+      `[admin:${scope}] ${error instanceof Error ? error.message : 'erro desconhecido'}`,
+    );
     return { ok: false, error: GENERIC_ERROR };
   }
 }

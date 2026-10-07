@@ -38,10 +38,10 @@ export function LogoLockup({ className }: { className?: string }) {
         className="h-11 w-auto sm:h-12"
       />
       <span className="flex flex-col leading-none">
-        <span className="font-heading text-[1.3rem] font-extrabold tracking-tight text-brand-green sm:text-[1.45rem]">
+        <span className="font-heading text-brand-green text-[1.3rem] font-extrabold tracking-tight sm:text-[1.45rem]">
           ART TERRA
         </span>
-        <span className="mt-1 hidden font-heading text-[0.56rem] font-semibold tracking-[0.2em] text-brand-green/80 uppercase min-[400px]:block md:hidden lg:block">
+        <span className="font-heading text-brand-green/80 mt-1 hidden text-[0.56rem] font-semibold tracking-[0.2em] uppercase min-[400px]:block md:hidden lg:block">
           Pisos · Vasos · Revestimentos
         </span>
       </span>

@@ -40,6 +40,7 @@ export function Hero({
             alt="Fachada com painel de cobogós de concreto da Art Terra"
             fill
             priority
+            fetchPriority="high"
             sizes={sizes}
             quality={80}
             placeholder="blur"
@@ -52,6 +53,7 @@ export function Hero({
             alt="Fachada residencial com porta de madeira e painel de cobogós de concreto"
             fill
             priority
+            fetchPriority="high"
             sizes={sizes}
             quality={80}
             placeholder="blur"

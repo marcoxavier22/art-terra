@@ -58,7 +58,7 @@ export function AdminShell({
 
   const badge = (href: string) =>
     href === '/admin/mensagens' && unread > 0 ? (
-      <span className="ml-auto rounded-full bg-brand-orange px-2 py-0.5 text-xs font-bold text-brand-green-dark tabular-nums">
+      <span className="bg-brand-orange text-brand-green-dark ml-auto rounded-full px-2 py-0.5 text-xs font-bold tabular-nums">
         {unread}
         <span className="sr-only"> não lidas</span>
       </span>
@@ -73,7 +73,7 @@ export function AdminShell({
             href={href}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'relative flex min-h-12 items-center gap-3 rounded-[10px] px-3.5 font-heading font-semibold transition-colors',
+              'font-heading relative flex min-h-12 items-center gap-3 rounded-[10px] px-3.5 font-semibold transition-colors',
               active ? 'bg-brand-green text-white' : 'text-ink hover:bg-brand-green/8',
             )}
           >
@@ -88,12 +88,12 @@ export function AdminShell({
   );
 
   const footerLinks = (
-    <div className="space-y-1 border-t border-line pt-3">
+    <div className="border-line space-y-1 border-t pt-3">
       <a
         href="/"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex min-h-12 items-center gap-3 rounded-[10px] px-3.5 font-heading font-semibold text-ink hover:bg-brand-green/8"
+        className="font-heading text-ink hover:bg-brand-green/8 flex min-h-12 items-center gap-3 rounded-[10px] px-3.5 font-semibold"
       >
         <ExternalLink className="size-5" aria-hidden />
         Ver site
@@ -101,21 +101,21 @@ export function AdminShell({
       <button
         type="button"
         onClick={signOut}
-        className="flex min-h-12 w-full items-center gap-3 rounded-[10px] px-3.5 font-heading font-semibold text-danger hover:bg-danger/8"
+        className="font-heading text-danger hover:bg-danger/8 flex min-h-12 w-full items-center gap-3 rounded-[10px] px-3.5 font-semibold"
       >
         <LogOut className="size-5" aria-hidden />
         Sair
       </button>
-      <p className="truncate px-3.5 pt-1 text-xs text-muted" title={email}>
+      <p className="text-muted truncate px-3.5 pt-1 text-xs" title={email}>
         {email}
       </p>
     </div>
   );
 
   return (
-    <div className="min-h-dvh bg-offwhite lg:pl-64">
+    <div className="bg-offwhite min-h-dvh lg:pl-64">
       {/* desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-line bg-white p-4 lg:flex">
+      <aside className="border-line fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r bg-white p-4 lg:flex">
         <Link href="/admin" className="mb-6 rounded-md px-1.5 py-1" aria-label="Painel Art Terra">
           <LogoLockup />
         </Link>
@@ -126,11 +126,13 @@ export function AdminShell({
       </aside>
 
       {/* phone top bar */}
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-white px-4 lg:hidden">
+      <header className="border-line sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-white px-4 lg:hidden">
         <Link href="/admin" aria-label="Painel Art Terra" className="rounded-md">
           <LogoLockup className="origin-left scale-90" />
         </Link>
-        <span className="rounded-full bg-sand px-2.5 py-1 text-xs font-semibold text-muted">Painel</span>
+        <span className="bg-sand text-muted rounded-full px-2.5 py-1 text-xs font-semibold">
+          Painel
+        </span>
       </header>
 
       <main className="mx-auto w-full max-w-6xl px-4 pt-5 pb-28 sm:px-6 lg:px-8 lg:pt-8 lg:pb-16">
@@ -140,7 +142,7 @@ export function AdminShell({
       {/* phone bottom navigation */}
       <nav
         aria-label="Menu do painel"
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white pb-[env(safe-area-inset-bottom)] lg:hidden"
+        className="border-line fixed inset-x-0 bottom-0 z-30 border-t bg-white pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
         <ul className="grid grid-cols-5">
           {NAV.filter((n) => BOTTOM.includes(n.href)).map(({ href, label, icon: Icon }) => {
@@ -155,11 +157,13 @@ export function AdminShell({
                     active ? 'text-brand-green' : 'text-muted',
                   )}
                 >
-                  {active ? <span aria-hidden className="absolute top-0 h-1 w-8 bg-brand-orange" /> : null}
+                  {active ? (
+                    <span aria-hidden className="bg-brand-orange absolute top-0 h-1 w-8" />
+                  ) : null}
                   <span className="relative">
                     <Icon className="size-6" aria-hidden />
                     {href === '/admin/mensagens' && unread > 0 ? (
-                      <span className="absolute -top-1.5 -right-2.5 grid min-w-5 place-items-center rounded-full bg-brand-orange px-1 text-[0.65rem] font-bold text-brand-green-dark">
+                      <span className="bg-brand-orange text-brand-green-dark absolute -top-1.5 -right-2.5 grid min-w-5 place-items-center rounded-full px-1 text-[0.65rem] font-bold">
                         {unread}
                       </span>
                     ) : null}

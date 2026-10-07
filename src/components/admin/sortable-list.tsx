@@ -89,7 +89,7 @@ function Row<T>({
     <li
       ref={setNodeRef}
       style={{ transform: CSS.Translate.toString(transform), transition }}
-      className={cn(className, isDragging && 'relative z-10 opacity-90 shadow-lift')}
+      className={cn(className, isDragging && 'shadow-lift relative z-10 opacity-90')}
     >
       {render(item, { handle }, index)}
     </li>
@@ -138,7 +138,12 @@ export function SortableList<T>({
   }
 
   return (
-    <DndContext id={dndId} sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+    <DndContext
+      id={dndId}
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={onDragEnd}
+    >
       <SortableContext items={ids} strategy={verticalListSortingStrategy}>
         <ul className={className}>
           {items.map((item, index) => (

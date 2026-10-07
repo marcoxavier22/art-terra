@@ -1,22 +1,19 @@
-'use client';
 import * as React from 'react';
-import { Tooltip as TooltipPrimitive } from 'radix-ui';
 
-export const TooltipProvider = TooltipPrimitive.Provider;
-
+/**
+ * Lightweight CSS tooltip (hover + keyboard focus). The accessible name still comes
+ * from the child's own `aria-label`; this bubble is the visual hint only.
+ */
 export function Tooltip({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <TooltipPrimitive.Root>
-      <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-      <TooltipPrimitive.Portal>
-        <TooltipPrimitive.Content
-          sideOffset={6}
-          className="animate-in fade-in-0 zoom-in-95 bg-ink shadow-lift z-[60] rounded-md px-2.5 py-1.5 text-xs font-medium text-white"
-        >
-          {label}
-          <TooltipPrimitive.Arrow className="fill-ink" />
-        </TooltipPrimitive.Content>
-      </TooltipPrimitive.Portal>
-    </TooltipPrimitive.Root>
+    <span className="group/tip relative inline-flex">
+      {children}
+      <span
+        aria-hidden
+        className="bg-ink shadow-lift pointer-events-none absolute bottom-full left-0 z-30 mb-1.5 origin-bottom-left scale-95 rounded-md px-2.5 py-1.5 text-xs font-medium whitespace-nowrap text-white opacity-0 transition duration-150 group-focus-within/tip:scale-100 group-focus-within/tip:opacity-100 group-hover/tip:scale-100 group-hover/tip:opacity-100"
+      >
+        {label}
+      </span>
+    </span>
   );
 }

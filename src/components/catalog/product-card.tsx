@@ -120,7 +120,7 @@ export function ProductCard({
 
         <div className="relative z-10 mt-auto grid grid-cols-1 gap-2 pt-5">
           <Button asChild variant="outline" size="sm" className="min-h-11">
-            <Link href={href} aria-label={`Ver detalhes de ${produto.nome}`}>
+            <Link href={href} aria-label={`Ver detalhes: ${produto.nome}`}>
               Ver detalhes
             </Link>
           </Button>
@@ -129,7 +129,7 @@ export function ProductCard({
               href={whatsappUrl(whatsapp, productMessage(produto.nome))}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Consultar ${produto.nome} no WhatsApp`}
+              aria-label={`Consultar no WhatsApp: ${produto.nome}`}
             >
               <WhatsAppIcon />
               Consultar no WhatsApp

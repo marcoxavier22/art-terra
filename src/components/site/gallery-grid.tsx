@@ -5,7 +5,10 @@ import { Expand } from 'lucide-react';
 import { BLUR_DATA_URL } from '@/lib/site';
 import { cn } from '@/lib/utils';
 import type { GaleriaItem } from '@/lib/types';
-import { Lightbox } from './lightbox';
+import dynamic from 'next/dynamic';
+
+// Loaded only when a photo is opened: keeps the zoom viewer out of the first-load JavaScript.
+const Lightbox = dynamic(() => import('./lightbox').then((m) => m.Lightbox), { ssr: false });
 
 // Mosaic rhythm (desktop): large tile, two small, wide tile… repeats every 8 photos.
 const SPANS = [
@@ -65,12 +68,14 @@ export function GalleryGrid({ items }: { items: GaleriaItem[] }) {
           </li>
         ))}
       </ul>
-      <Lightbox
-        images={images}
-        index={index}
-        onIndexChange={setIndex}
-        onClose={() => setIndex(null)}
-      />
+      {index !== null ? (
+        <Lightbox
+          images={images}
+          index={index}
+          onIndexChange={setIndex}
+          onClose={() => setIndex(null)}
+        />
+      ) : null}
     </>
   );
 }

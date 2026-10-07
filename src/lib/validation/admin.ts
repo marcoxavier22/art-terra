@@ -48,9 +48,12 @@ export const produtoSchema = z.object({
   rendimento_pecas_m2: z
     .string()
     .trim()
-    .refine((v) => v === '' || (/^\d{1,4}([.,]\d{1,2})?$/.test(v) && Number(v.replace(',', '.')) > 0), {
-      message: 'Use apenas números, ex.: 7 ou 7,5.',
-    }),
+    .refine(
+      (v) => v === '' || (/^\d{1,4}([.,]\d{1,2})?$/.test(v) && Number(v.replace(',', '.')) > 0),
+      {
+        message: 'Use apenas números, ex.: 7 ou 7,5.',
+      },
+    ),
   face: z.enum(['', 'uma_face', 'dupla_face', 'uma_ou_dupla']),
   observacao_face: optionalText(120, 'Observação'),
   aplicacao: optionalText(300, 'Aplicação'),
@@ -58,14 +61,20 @@ export const produtoSchema = z.object({
   cores: z.array(z.string().uuid()).max(40),
   imagem_principal_url: z.string().max(600).nullable(),
   imagem_aplicacao_url: z.string().max(600).nullable(),
-  imagens_extras: z.array(z.string().max(600)).max(MAX_EXTRA_IMAGES, `Máximo de ${MAX_EXTRA_IMAGES} imagens extras.`),
+  imagens_extras: z
+    .array(z.string().max(600))
+    .max(MAX_EXTRA_IMAGES, `Máximo de ${MAX_EXTRA_IMAGES} imagens extras.`),
   ativo: z.boolean(),
   destaque: z.boolean(),
 });
 export type ProdutoInput = z.infer<typeof produtoSchema>;
 
 export const categoriaSchema = z.object({
-  nome: z.string().trim().min(1, 'Informe o nome da categoria.').max(80, 'Máximo de 80 caracteres.'),
+  nome: z
+    .string()
+    .trim()
+    .min(1, 'Informe o nome da categoria.')
+    .max(80, 'Máximo de 80 caracteres.'),
   slug: slugSchema,
   descricao: optionalText(600, 'Descrição'),
   imagem_capa_url: z.string().max(600).nullable(),
@@ -97,9 +106,12 @@ export const configuracoesSchema = z.object({
   whatsapp: z
     .string()
     .trim()
-    .refine((v) => [10, 11].includes(v.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '').length), {
-      message: 'Informe o WhatsApp com DDD, ex.: (24) 99229-0708.',
-    }),
+    .refine(
+      (v) => [10, 11].includes(v.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '').length),
+      {
+        message: 'Informe o WhatsApp com DDD, ex.: (24) 99229-0708.',
+      },
+    ),
   email: z
     .string()
     .trim()

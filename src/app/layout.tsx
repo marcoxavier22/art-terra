@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Toaster } from 'sonner';
 import { bebas, inter, poppins } from '@/lib/fonts';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
 import './globals.css';
@@ -39,12 +38,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" className={`${poppins.variable} ${inter.variable} ${bebas.variable}`}>
       <body>
         {children}
-        <Toaster
-          position="top-center"
-          richColors
-          closeButton
-          toastOptions={{ style: { fontFamily: 'var(--font-inter)', fontSize: '0.95rem' } }}
-        />
         <Analytics />
         <SpeedInsights />
       </body>

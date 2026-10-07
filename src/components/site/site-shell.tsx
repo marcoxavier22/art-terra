@@ -1,6 +1,5 @@
 import { getCatalogSafe, getSettings } from '@/lib/data';
 import { DEFAULT_QUOTE_MESSAGE, whatsappUrl } from '@/lib/whatsapp';
-import { TooltipProvider } from '@/components/ui/tooltip';
 import { FloatingActions } from './floating-actions';
 import { Footer } from './footer';
 import { Header } from './header';
@@ -11,7 +10,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
   const whatsappHref = whatsappUrl(settings.whatsapp, DEFAULT_QUOTE_MESSAGE);
 
   return (
-    <TooltipProvider delayDuration={150}>
+    <>
       <a
         href="#conteudo"
         className="focus:bg-brand-green sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-md focus:px-4 focus:py-3 focus:font-semibold focus:text-white"
@@ -24,6 +23,6 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       </main>
       <Footer settings={settings} categorias={catalog.categorias} />
       <FloatingActions whatsappHref={whatsappHref} />
-    </TooltipProvider>
+    </>
   );
 }

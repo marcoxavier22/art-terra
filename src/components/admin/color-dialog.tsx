@@ -69,9 +69,9 @@ export function ColorDialog({
             />
           </Field>
           <div>
-            <p className="mb-1.5 text-sm font-semibold text-ink">Cor</p>
+            <p className="text-ink mb-1.5 text-sm font-semibold">Cor</p>
             <div className="flex items-center gap-3">
-              <label className="relative block size-14 shrink-0 cursor-pointer overflow-hidden rounded-full border border-ink/25 shadow-soft">
+              <label className="border-ink/25 shadow-soft relative block size-14 shrink-0 cursor-pointer overflow-hidden rounded-full border">
                 <span className="sr-only">Escolher a cor</span>
                 <span
                   aria-hidden
@@ -103,11 +103,11 @@ export function ColorDialog({
                 />
               </div>
             </div>
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="text-muted mt-1.5 text-sm">
               Toque na bolinha para escolher. O código (ex.: #A07260) é opcional.
             </p>
             {errors.hex || !validHex ? (
-              <p role="alert" className="mt-1 text-sm font-medium text-danger">
+              <p role="alert" className="text-danger mt-1 text-sm font-medium">
                 {errors.hex ?? 'Informe a cor no formato #RRGGBB.'}
               </p>
             ) : null}
