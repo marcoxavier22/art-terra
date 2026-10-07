@@ -154,7 +154,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <ul className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {DIFERENCIAIS.map(({ icon: Icon, titulo, texto }) => (
               <li
                 key={titulo}
@@ -196,7 +196,7 @@ export default async function HomePage() {
               </Button>
             </div>
 
-            <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
               {catalog.categorias.map((c, i) => (
                 <li key={c.id}>
                   <Link
@@ -261,7 +261,7 @@ export default async function HomePage() {
                 />
               </Link>
             </div>
-            <ul className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+            <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {destaques.map((p) => (
                 <li key={p.id}>
                   <ProductCard produto={p} whatsapp={settings.whatsapp} />
@@ -274,7 +274,7 @@ export default async function HomePage() {
 
       {/* ----------------------------- Por que escolher ----------------------------- */}
       <section aria-labelledby="motivos-titulo" className="bg-sand py-16 sm:py-24">
-        <div className="container-site grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="container-site grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
             <SectionLabel>Por que escolher a Art Terra</SectionLabel>
             <h2
@@ -339,7 +339,7 @@ export default async function HomePage() {
         aria-labelledby="local-titulo"
         className="border-line border-t bg-white py-16 sm:py-24"
       >
-        <div className="container-site grid gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="container-site grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
           <MapEmbed />
           <div className="flex flex-col justify-center">
             <SectionLabel>Onde estamos</SectionLabel>

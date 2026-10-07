@@ -115,7 +115,7 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
       noValidate
       className="border-line shadow-soft rounded-[12px] border bg-white p-5 sm:p-7"
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field
           label="Nome"
           htmlFor="contato-nome"

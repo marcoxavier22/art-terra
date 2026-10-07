@@ -251,7 +251,7 @@ export function ProductForm({
       <div className="space-y-5">
         {/* 1. Básico */}
         <Card title="1. Básico">
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Categoria" htmlFor="categoria_id" error={errors.categoria_id?.message}>
               <Select
                 id="categoria_id"
@@ -400,7 +400,7 @@ export function ProductForm({
           title="3. Especificações"
           description="Preencha só o que fizer sentido para o produto."
         >
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field
               label="Rendimento"
               htmlFor="rendimento"
@@ -555,7 +555,7 @@ export function ProductForm({
           title="5. Imagens"
           description="As fotos são reduzidas automaticamente antes do envio, então pode usar a foto direto do celular."
         >
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <Controller
               control={control}
               name="imagem_principal_url"

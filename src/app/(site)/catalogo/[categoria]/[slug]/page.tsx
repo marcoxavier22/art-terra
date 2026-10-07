@@ -126,7 +126,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           items={crumbs.map((c, i) => (i === crumbs.length - 1 ? { name: c.name } : c))}
         />
 
-        <div className="mt-4 grid gap-8 lg:grid-cols-2 lg:gap-14">
+        <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <ProductGallery images={images} nome={produto.nome} />
           </div>

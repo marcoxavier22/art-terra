@@ -103,7 +103,7 @@ export function SettingsForm({ initial }: { initial: ConfiguracoesInput }) {
         title="Dados da empresa"
         description="Aparecem no rodapé, na página de contato e nos botões de WhatsApp."
       >
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field
             label="Nome da empresa"
             htmlFor="nome_empresa"
@@ -184,7 +184,7 @@ export function SettingsForm({ initial }: { initial: ConfiguracoesInput }) {
         title="Topo da página inicial"
         description="O título grande, o texto e a foto de fundo que abrem o site."
       >
-        <div className="grid gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <Field
             label="Título"
             htmlFor="hero_titulo"

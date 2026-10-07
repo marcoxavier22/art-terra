@@ -144,7 +144,7 @@ export function ProductsManager({
   return (
     <div>
       {/* filters */}
-      <div className="grid gap-2.5 sm:grid-cols-[1fr_auto_auto]">
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-[1fr_auto_auto]">
         <div className="relative">
           <label htmlFor="admin-busca" className="sr-only">
             Buscar produto pelo nome

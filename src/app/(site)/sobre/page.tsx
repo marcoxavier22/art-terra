@@ -92,7 +92,7 @@ export default async function SobrePage() {
 
       {/* Texto institucional */}
       <section aria-labelledby="historia-titulo" className="py-16 sm:py-24">
-        <div className="container-site grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div className="container-site grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div>
             <h2 id="historia-titulo" className="sr-only">
               Nossa história
@@ -156,7 +156,7 @@ export default async function SobrePage() {
           >
             Nossos diferenciais
           </h2>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {DIFERENCIAIS.map(({ icon: Icon, titulo, texto }) => (
               <li
                 key={titulo}
@@ -178,7 +178,7 @@ export default async function SobrePage() {
         aria-labelledby="atermica-titulo"
         className="concrete-grain bg-brand-green py-16 text-white sm:py-24"
       >
-        <div className="container-site grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <div className="container-site grid grid-cols-1 gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <div>
             <SectionLabel tone="dark">Linha Atérmica</SectionLabel>
             <h2
