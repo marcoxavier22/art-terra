@@ -14,6 +14,35 @@ export function NewPasswordForm() {
   const [confirm, setConfirm] = React.useState('');
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  // 'checking' until we know whether the recovery link gave us a session
+  const [status, setStatus] = React.useState<'checking' | 'ready' | 'invalid'>('checking');
+
+  React.useEffect(() => {
+    const supabase = createClient();
+    async function init() {
+      // Link from the e-mail: #access_token=…&refresh_token=…&type=recovery
+      const hash = new URLSearchParams(window.location.hash.slice(1));
+      const access_token = hash.get('access_token');
+      const refresh_token = hash.get('refresh_token');
+      if (hash.get('error_code')) {
+        setStatus('invalid');
+        return;
+      }
+      if (access_token && refresh_token) {
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token,
+          refresh_token,
+        });
+        // drop the tokens from the address bar and history
+        window.history.replaceState(null, '', window.location.pathname);
+        setStatus(sessionError ? 'invalid' : 'ready');
+        return;
+      }
+      const { data } = await supabase.auth.getUser();
+      setStatus(data.user ? 'ready' : 'invalid');
+    }
+    void init();
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,6 +64,37 @@ export function NewPasswordForm() {
     toast.success('Senha alterada com sucesso.');
     router.replace('/admin');
     router.refresh();
+  }
+
+  if (status !== 'ready') {
+    return (
+      <main className="concrete-grain bg-brand-green-dark flex min-h-dvh items-center justify-center px-4 py-10">
+        <div className="shadow-lift w-full max-w-md rounded-2xl bg-white p-6 text-center sm:p-8">
+          {status === 'checking' ? (
+            <>
+              <Loader2 className="text-brand-green mx-auto size-8 animate-spin" aria-hidden />
+              <p className="text-muted mt-3" role="status">
+                Validando o link…
+              </p>
+            </>
+          ) : (
+            <>
+              <AlertTriangle className="text-danger mx-auto size-8" aria-hidden />
+              <h1 className="font-heading text-brand-green mt-3 text-xl font-bold">
+                Link inválido ou expirado
+              </h1>
+              <p className="text-muted mt-2">
+                O link de recuperação vale por 1 hora e só pode ser usado uma vez. Peça um novo na
+                tela de entrada.
+              </p>
+              <Button asChild variant="green" className="mt-5 w-full">
+                <a href="/admin/login">Voltar para a entrada</a>
+              </Button>
+            </>
+          )}
+        </div>
+      </main>
+    );
   }
 
   return (

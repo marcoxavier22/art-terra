@@ -6,6 +6,7 @@ import { AlertTriangle, ArrowLeft, CheckCircle2, Loader2, LogIn, Mail } from 'lu
 import { Logo } from '@/components/site/logo';
 import { Button } from '@/components/ui/button';
 import { Field, Input } from '@/components/ui/form';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
 
 type Mode = 'login' | 'forgot';
@@ -81,9 +82,26 @@ export function LoginForm({ initialError }: { initialError: string | null }) {
       return;
     }
     setPending(true);
-    await createClient().auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/admin/auth/callback?next=/admin/nova-senha`,
+    // Implicit flow on purpose: the link then works on any device (e.g. requested on the
+    // computer, opened on the phone). The PKCE default only works in the same browser.
+    const recovery = createSupabaseClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { auth: { flowType: 'implicit', persistSession: false, autoRefreshToken: false } },
+    );
+    const { error: resetError } = await recovery.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/admin/nova-senha`,
     });
+    if (resetError && (resetError.status === 429 || (resetError.status ?? 0) >= 500)) {
+      // 429: e-mail rate limit; 5xx: the e-mail could not be sent. Never says whether the account exists.
+      setPending(false);
+      setError(
+        resetError.status === 429
+          ? 'Muitos pedidos seguidos. Aguarde alguns minutos e tente de novo.'
+          : 'Não foi possível enviar o e-mail agora. Tente de novo em alguns minutos.',
+      );
+      return;
+    }
     setPending(false);
     // same message whether or not the account exists
     setNotice(

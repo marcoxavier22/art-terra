@@ -3,7 +3,9 @@ import { NextResponse, type NextRequest } from 'next/server';
 import type { Database } from '@/lib/supabase/database.types';
 
 // Reachable without a session.
-const PUBLIC_ADMIN_PATHS = ['/admin/login', '/admin/auth/callback'];
+// /admin/nova-senha receives the recovery tokens in the URL fragment (#), which never
+// reaches the server, so the page itself checks the session.
+const PUBLIC_ADMIN_PATHS = ['/admin/login', '/admin/auth/callback', '/admin/nova-senha'];
 // Reachable with a session even if the user is not an admin (password recovery).
 const SESSION_ONLY_PATHS = ['/admin/nova-senha'];
 
@@ -53,7 +55,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (pathname === '/admin/auth/callback') return response;
+  if (pathname === '/admin/auth/callback' || pathname === '/admin/nova-senha') return response;
 
   if (!user) {
     return isPublic ? response : redirectTo('/admin/login');
