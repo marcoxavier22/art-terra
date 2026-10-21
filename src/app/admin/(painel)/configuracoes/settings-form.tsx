@@ -125,7 +125,7 @@ export function SettingsForm({ initial }: { initial: ConfiguracoesInput }) {
               type="tel"
               inputMode="tel"
               autoComplete="tel"
-              placeholder="(24) 99229-0708"
+              placeholder="(24) 99201-1676"
               aria-invalid={Boolean(errors.whatsapp)}
               {...register('whatsapp', {
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) =>

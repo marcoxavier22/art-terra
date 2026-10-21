@@ -12,7 +12,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Contato e localização da fábrica em Pinheiral/RJ',
   description:
-    'Fale com a Art Terra pelo WhatsApp (24) 99229-0708, e-mail ou formulário. Estrada Benjamin Constant, 4805, Mutirão, Pinheiral/RJ. Veja como chegar.',
+    'Fale com a Art Terra pelo WhatsApp (24) 99201-1676, e-mail ou formulário. Estrada Benjamin Constant, 4805, Mutirão, Pinheiral/RJ. Veja como chegar.',
   alternates: { canonical: '/contato' },
 };
 

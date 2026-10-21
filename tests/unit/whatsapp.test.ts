@@ -16,9 +16,9 @@ describe('productMessage', () => {
 
 describe('whatsappUrl', () => {
   it('builds a wa.me link with only digits and an encoded message', () => {
-    expect(whatsappUrl('+55 (24) 99229-0708')).toBe('https://wa.me/5524992290708');
-    const url = whatsappUrl('5524992290708', 'Olá! Cobogó & piso?');
-    expect(url.startsWith('https://wa.me/5524992290708?text=')).toBe(true);
+    expect(whatsappUrl('+55 (24) 99201-1676')).toBe('https://wa.me/5524992011676');
+    const url = whatsappUrl('5524992011676', 'Olá! Cobogó & piso?');
+    expect(url.startsWith('https://wa.me/5524992011676?text=')).toBe(true);
     expect(decodeURIComponent(url.split('text=')[1])).toBe('Olá! Cobogó & piso?');
   });
 });

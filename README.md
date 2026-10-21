@@ -61,7 +61,7 @@ Scripts: `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test`, `pnpm test:e2
 | `NEXT_PUBLIC_SUPABASE_URL`      | cliente + servidor    | URL do projeto Supabase                                            |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | cliente + servidor    | chave pública (_publishable_ ou _anon_)                            |
 | `NEXT_PUBLIC_SITE_URL`          | cliente + servidor    | URL final do site, sem barra no fim                                |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER`   | cliente + servidor    | WhatsApp de reserva (`5524992290708`) se o banco falhar            |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER`   | cliente + servidor    | WhatsApp de reserva (`5524992011676`) se o banco falhar            |
 | `CONTACT_FORM_SECRET`           | **só servidor**       | segredo do formulário de contato (ver abaixo)                      |
 | `SUPABASE_SERVICE_ROLE_KEY`     | **só na sua máquina** | usada apenas por `pnpm seed:images`; não precisa existir na Vercel |
 

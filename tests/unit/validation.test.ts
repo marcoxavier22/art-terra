@@ -56,7 +56,7 @@ describe('configuracoesSchema', () => {
   const base = {
     nome_empresa: 'Art Terra',
     slogan: '',
-    whatsapp: '(24) 99229-0708',
+    whatsapp: '(24) 99201-1676',
     email: '',
     instagram: 'artterraoficial',
     endereco: '',
@@ -68,7 +68,7 @@ describe('configuracoesSchema', () => {
   };
   it('validates the WhatsApp number', () => {
     expect(configuracoesSchema.safeParse(base).success).toBe(true);
-    expect(configuracoesSchema.safeParse({ ...base, whatsapp: '99229-0708' }).success).toBe(false);
+    expect(configuracoesSchema.safeParse({ ...base, whatsapp: '99201-1676' }).success).toBe(false);
   });
   it('rejects an Instagram URL (only the profile name is expected)', () => {
     expect(

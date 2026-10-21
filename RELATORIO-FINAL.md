@@ -78,6 +78,7 @@ produtos e fotos do Catálogo 2025, testes automatizados, deploy contínuo (push
 - Redefinição de senha: o link agora funciona em qualquer aparelho (antes só no mesmo navegador
   em que foi pedido) e a tela avisa quando o link expirou ou quando o e-mail não pôde ser enviado.
   Testado de ponta a ponta no ambiente local.
+- WhatsApp de todo o site trocado para (24) 99201-1676 (banco, reserva na Vercel e textos).
 - Conta `marcotuliobatistaxavier@gmail.com`: ativa, confirmada, com senha e liberada como admin.
 - Domínio `artterraoficial.com.br` (e `www`, redirecionando) adicionado ao projeto na Vercel;
   falta o DNS no Registro.br.
@@ -104,7 +105,6 @@ produtos e fotos do Catálogo 2025, testes automatizados, deploy contínuo (push
    remetente `nao-responda@artterraoficial.com.br`, nome `Art Terra`. Sem isso, o Supabase usa o
    servidor de teste: no máximo ~2 e-mails por hora e só para e-mails da equipe do Supabase.
 4. Na Vercel, trocar `NEXT_PUBLIC_SITE_URL` para `https://artterraoficial.com.br` e publicar de novo.
-5. **Confirmar o WhatsApp:** o site usa (24) 99229-0708; o PDF do catálogo traz (24) 99201-1676.
 
 ## Não feito
 

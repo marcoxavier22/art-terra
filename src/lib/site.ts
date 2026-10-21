@@ -6,7 +6,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3
 export const SITE_NAME = 'Art Terra';
 export const SITE_TAGLINE = 'Pisos · Vasos · Revestimentos';
 
-export const FALLBACK_WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5524992290708';
+export const FALLBACK_WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '5524992011676';
 
 export const MAPS_QUERY = 'Estrada+Benjamin+Constant+4805+Mutir%C3%A3o+Pinheiral+RJ';
 export const MAPS_EMBED_URL = `https://www.google.com/maps?q=${MAPS_QUERY}&output=embed`;

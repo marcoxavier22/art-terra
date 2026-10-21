@@ -39,15 +39,15 @@ describe('floorToTen', () => {
 
 describe('phone helpers', () => {
   it('masks Brazilian mobile and landline numbers', () => {
-    expect(maskPhoneBR('24992290708')).toBe('(24) 99229-0708');
+    expect(maskPhoneBR('24992011676')).toBe('(24) 99201-1676');
     expect(maskPhoneBR('2433334444')).toBe('(24) 3333-4444');
-    expect(maskPhoneBR('5524992290708')).toBe('(24) 99229-0708');
+    expect(maskPhoneBR('5524992011676')).toBe('(24) 99201-1676');
     expect(maskPhoneBR('')).toBe('');
   });
   it('stores WhatsApp numbers as digits with country code 55', () => {
-    expect(toWhatsappDigits('(24) 99229-0708')).toBe('5524992290708');
-    expect(toWhatsappDigits('+55 24 99229-0708')).toBe('5524992290708');
-    expect(toWhatsappDigits('99229-0708')).toBeNull();
+    expect(toWhatsappDigits('(24) 99201-1676')).toBe('5524992011676');
+    expect(toWhatsappDigits('+55 24 99201-1676')).toBe('5524992011676');
+    expect(toWhatsappDigits('99201-1676')).toBeNull();
   });
 });
 

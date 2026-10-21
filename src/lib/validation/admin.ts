@@ -109,7 +109,7 @@ export const configuracoesSchema = z.object({
     .refine(
       (v) => [10, 11].includes(v.replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '').length),
       {
-        message: 'Informe o WhatsApp com DDD, ex.: (24) 99229-0708.',
+        message: 'Informe o WhatsApp com DDD, ex.: (24) 99201-1676.',
       },
     ),
   email: z

@@ -24,7 +24,7 @@ export function onlyDigits(value: string): string {
   return value.replace(/\D/g, '');
 }
 
-/** Brazilian phone mask: (24) 99229-0708 / (24) 3333-4444 */
+/** Brazilian phone mask: (24) 99201-1676 / (24) 3333-4444 */
 export function maskPhoneBR(value: string): string {
   let d = onlyDigits(value);
   if (d.length > 11 && d.startsWith('55')) d = d.slice(2);
@@ -44,7 +44,7 @@ export function toWhatsappDigits(value: string): string | null {
   return `55${d}`;
 }
 
-/** 5524992290708 -> (24) 99229-0708 */
+/** 5524992011676 -> (24) 99201-1676 */
 export function formatWhatsappDisplay(digits: string): string {
   return maskPhoneBR(digits);
 }

@@ -24,7 +24,7 @@ export async function saveConfiguracoes(raw: unknown): Promise<ActionResult> {
       return {
         ok: false,
         error: 'Confira os campos destacados.',
-        fieldErrors: { whatsapp: 'Informe o WhatsApp com DDD, ex.: (24) 99229-0708.' },
+        fieldErrors: { whatsapp: 'Informe o WhatsApp com DDD, ex.: (24) 99201-1676.' },
       };
     }
     if (input.hero_imagem_url && !isAllowedImageUrl(input.hero_imagem_url)) {
