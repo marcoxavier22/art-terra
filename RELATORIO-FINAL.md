@@ -71,12 +71,40 @@ produtos e fotos do Catálogo 2025, testes automatizados, deploy contínuo (push
   `https://art-terra-five.vercel.app/**` configuradas.
 - Cadastro público desligado (`disable_signup = true`).
 
+## Atualização de 21/10/2026
+
+- O Supabase gratuito tinha **pausado por inatividade** (site sem catálogo e painel sem login).
+  Projeto reativado e criado o keep-alive diário (`/api/keepalive` + Vercel Cron em `vercel.json`).
+- Redefinição de senha: o link agora funciona em qualquer aparelho (antes só no mesmo navegador
+  em que foi pedido) e a tela avisa quando o link expirou ou quando o e-mail não pôde ser enviado.
+  Testado de ponta a ponta no ambiente local.
+- Conta `marcotuliobatistaxavier@gmail.com`: ativa, confirmada, com senha e liberada como admin.
+- Domínio `artterraoficial.com.br` (e `www`, redirecionando) adicionado ao projeto na Vercel;
+  falta o DNS no Registro.br.
+- Domínio de envio criado no Resend (São Paulo) para o e-mail de redefinição; falta o DNS.
+
 ## Pendências
 
-1. Entrar no painel e cadastrar um produto de teste (login, upload e ordenação ainda não foram
-   exercitados em produção).
-2. **Confirmar o WhatsApp:** o site usa (24) 99229-0708; o PDF do catálogo traz (24) 99201-1676.
-3. Conferir na Vercel se Analytics e Speed Insights estão ligados e olhar os logs de execução.
+1. **DNS no Registro.br** (zona de `artterraoficial.com.br`):
+
+   | Tipo  | Nome                | Valor                                                   |
+   | ----- | ------------------- | ------------------------------------------------------- |
+   | A     | (vazio)             | `76.76.21.21`                                           |
+   | CNAME | `www`               | `cname.vercel-dns.com`                                  |
+   | TXT   | `resend._domainkey` | chave DKIM mostrada no Resend                           |
+   | MX    | `send`              | `feedback-smtp.sa-east-1.amazonses.com` (prioridade 10) |
+   | TXT   | `send`              | `v=spf1 include:amazonses.com ~all`                     |
+   | CNAME | `rsend`             | `send.forge.rmta.net`                                   |
+
+2. **Supabase → Authentication → URL Configuration:** adicionar
+   `https://artterraoficial.com.br/**` às Redirect URLs **antes** de divulgar o domínio; depois que
+   o domínio abrir, trocar a Site URL para `https://artterraoficial.com.br`.
+3. **Supabase → Authentication → SMTP Settings** (depois que o Resend verificar o domínio):
+   host `smtp.resend.com`, porta `465`, usuário `resend`, senha = uma API key do Resend,
+   remetente `nao-responda@artterraoficial.com.br`, nome `Art Terra`. Sem isso, o Supabase usa o
+   servidor de teste: no máximo ~2 e-mails por hora e só para e-mails da equipe do Supabase.
+4. Na Vercel, trocar `NEXT_PUBLIC_SITE_URL` para `https://artterraoficial.com.br` e publicar de novo.
+5. **Confirmar o WhatsApp:** o site usa (24) 99229-0708; o PDF do catálogo traz (24) 99201-1676.
 
 ## Não feito
 
