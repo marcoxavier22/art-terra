@@ -161,6 +161,51 @@ test.describe('catálogo', () => {
   });
 });
 
+test.describe('vitrines por linha', () => {
+  test('cobogós: troca de modelo, foto aplicada e adicionar ao orçamento', async ({ page }) => {
+    await page.goto('/catalogo/cobogos', { waitUntil: 'networkidle' });
+    await page.getByRole('radio', { name: /Boomerang/ }).click();
+    await expect(
+      page.getByRole('heading', { name: 'Cobogó Boomerang', level: 3 }).first(),
+    ).toBeVisible();
+    await page.getByRole('tab', { name: 'Aplicada' }).click();
+    await expect(page.getByRole('tab', { name: 'Aplicada' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    await page.getByRole('button', { name: 'Adicionar Cobogó Boomerang ao orçamento' }).click();
+    await expect(
+      page.getByRole('link', { name: 'Cobogó Boomerang está na lista · ver' }),
+    ).toBeVisible();
+  });
+
+  test('bordas: comparar perfil e aplicada', async ({ page }) => {
+    await page.goto('/catalogo/atermicos', { waitUntil: 'networkidle' });
+    const grupo = page.getByRole('group', { name: 'Foto de Borda Reta' });
+    await grupo.getByRole('button', { name: 'Aplicada' }).click();
+    await expect(page.getByRole('img', { name: /Obra com Borda Reta/ })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Em piscinas reais' })).toBeVisible();
+  });
+
+  test('bancos: planejador mostra se cabe e envia quantidades', async ({ page }) => {
+    await page.goto('/catalogo/artificios', { waitUntil: 'networkidle' });
+    await page.getByLabel('Comprimento disponível (m)').fill('3');
+    await expect(page.getByText(/Não cabe/)).toBeVisible();
+    await page.getByLabel('Comprimento disponível (m)').fill('6');
+    await expect(page.getByText(/Cabe! Sobram/)).toBeVisible();
+    await page.getByRole('button', { name: /Adicionar 2 bancos ao orçamento/ }).click();
+    await page.goto('/orcamento', { waitUntil: 'networkidle' });
+    await expect(page.getByLabel('Quantidade de Banco com Vaso')).toHaveValue('2');
+  });
+
+  test('cards alternam entre peça e aplicada', async ({ page }) => {
+    await page.goto('/catalogo/cobogos', { waitUntil: 'networkidle' });
+    const card = page.locator('#lista-produtos article').filter({ hasText: 'Cobogó Árabe' });
+    await card.getByRole('button', { name: 'Aplicada' }).click();
+    await expect(card.getByRole('img', { name: /Obra com Cobogó Árabe/ })).toBeVisible();
+  });
+});
+
 test.describe('contato', () => {
   test('mapa, como chegar e validação do formulário', async ({ page }) => {
     await page.goto('/contato', { waitUntil: 'networkidle' });

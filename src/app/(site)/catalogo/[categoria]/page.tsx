@@ -9,7 +9,10 @@ import { JsonLd } from '@/components/site/json-ld';
 import { SectionLabel } from '@/components/ui/section-label';
 import { Button } from '@/components/ui/button';
 import { WhatsAppIcon } from '@/components/ui/icons';
-import { getCatalog, getSettings } from '@/lib/data';
+import { LineShowcase } from '@/components/catalog/line-showcase';
+import { getCatalog, getGallery, getSettings } from '@/lib/data';
+import { galleryForLine } from '@/lib/image-seo';
+import { SHOWCASE } from '@/lib/showcase';
 import { CATEGORIA_SEO, CIDADES_ATENDIDAS } from '@/lib/seo-content';
 import { breadcrumbJsonLd, faqJsonLd, itemListJsonLd, metaDescription } from '@/lib/seo';
 import { whatsappUrl } from '@/lib/whatsapp';
@@ -61,7 +64,11 @@ export default async function CategoryPage({
 }) {
   const { categoria } = await params;
   await searchParams;
-  const [settings, catalog] = await Promise.all([getSettings(), getCatalog()]);
+  const [settings, catalog, galeria] = await Promise.all([
+    getSettings(),
+    getCatalog(),
+    getGallery(),
+  ]);
   const cat = catalog.categorias.find((c) => c.slug === categoria);
   if (!cat) notFound();
 
@@ -113,6 +120,14 @@ export default async function CategoryPage({
           </p>
         </div>
       </header>
+
+      {SHOWCASE[cat.slug] ? (
+        <LineShowcase
+          config={SHOWCASE[cat.slug]!}
+          produtos={produtos}
+          galeria={galleryForLine(galeria, cat.slug)}
+        />
+      ) : null}
 
       <Suspense fallback={<CatalogSkeleton />}>
         <CatalogBrowser

@@ -259,7 +259,7 @@ export function CatalogBrowser({
   );
 
   return (
-    <div>
+    <div id="lista-produtos" className="scroll-mt-16">
       {/* ------------------------------ sticky controls ------------------------------ */}
       <div className="border-line bg-offwhite/95 sticky top-[68px] z-20 border-b backdrop-blur-md">
         <div className="container-site py-2.5 sm:py-3">

@@ -10,6 +10,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { getCatalog, getCatalogSafe, getProduct, getSettings } from '@/lib/data';
 import { breadcrumbJsonLd, metaDescription, productJsonLd } from '@/lib/seo';
 import { faceLabel } from '@/lib/text';
+import { productImageAlt, productImages } from '@/lib/image-seo';
 import { defaultUnidade } from '@/lib/quote';
 import type { Produto } from '@/lib/types';
 
@@ -54,7 +55,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       title: `${produto.nome} | Art Terra`,
       description,
       url: path,
-      ...(image ? { images: [{ url: image, alt: produto.nome }] } : {}),
+      ...(image ? { images: [{ url: image, alt: productImageAlt(produto, 'peca') }] } : {}),
     },
     twitter: {
       card: 'summary_large_image',
@@ -71,23 +72,11 @@ export default async function ProductPage({ params }: { params: Params }) {
   const produto = catalog.produtos.find((p) => p.slug === slug && p.categoria.slug === categoria);
   if (!produto) notFound();
 
-  const images = [
-    produto.imagem_principal_url
-      ? { src: produto.imagem_principal_url, alt: produto.nome, caption: produto.nome }
-      : null,
-    produto.imagem_aplicacao_url
-      ? {
-          src: produto.imagem_aplicacao_url,
-          alt: `${produto.nome} aplicado em obra`,
-          caption: `${produto.nome} — aplicação`,
-        }
-      : null,
-    ...produto.imagens_extras.map((src, i) => ({
-      src,
-      alt: `${produto.nome} — foto ${i + 1}`,
-      caption: `${produto.nome} — foto adicional ${i + 1}`,
-    })),
-  ].filter((v) => v !== null) satisfies LightboxImage[];
+  const images: LightboxImage[] = productImages(produto).map(({ src, alt, caption }) => ({
+    src,
+    alt,
+    caption,
+  }));
 
   const face = faceLabel(produto.face);
   const specs: { label: string; value: React.ReactNode }[] = [];

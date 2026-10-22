@@ -7,7 +7,8 @@ import type { Produto } from '@/lib/types';
 import { WhatsAppIcon } from '@/components/ui/icons';
 import { AddToQuoteButton } from '@/components/quote/add-to-quote-button';
 import { ColorSwatches } from './color-swatches';
-import { ProductImage } from './product-image';
+import { productImageAlt } from '@/lib/image-seo';
+import { CardMedia } from './card-media';
 
 export const CARD_SIZES =
   '(min-width: 1536px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 48vw';
@@ -44,21 +45,14 @@ export function ProductCard({
   return (
     <article className="group border-line focus-within:shadow-lift hover:shadow-lift relative flex h-full flex-col overflow-hidden rounded-[12px] border bg-white transition-shadow duration-300">
       <div className="bg-sand relative aspect-square overflow-hidden sm:aspect-[4/3]">
-        <ProductImage
-          src={produto.imagem_principal_url}
-          alt={produto.nome}
+        <CardMedia
+          peca={produto.imagem_principal_url}
+          aplicacao={produto.imagem_aplicacao_url}
+          altPeca={productImageAlt(produto, 'peca')}
+          altAplicacao={productImageAlt(produto, 'aplicacao')}
           sizes={CARD_SIZES}
           priority={priority}
-          className="transition-transform duration-500 group-hover:scale-[1.04]"
         />
-        {produto.imagem_aplicacao_url ? (
-          <div
-            aria-hidden
-            className="absolute inset-0 hidden opacity-0 transition-opacity duration-500 group-hover:opacity-100 [@media(hover:hover)]:block"
-          >
-            <ProductImage src={produto.imagem_aplicacao_url} alt="" sizes={CARD_SIZES} />
-          </div>
-        ) : null}
         <div className="pointer-events-none absolute inset-x-2 top-2 flex items-start justify-between gap-1.5 sm:inset-x-3 sm:top-3">
           {showCategory ? (
             <span className="font-heading text-brand-green max-w-[70%] truncate rounded-md bg-white/92 px-1.5 py-0.5 text-[0.62rem] font-semibold tracking-wide uppercase shadow-sm sm:px-2 sm:py-1 sm:text-[0.7rem]">
