@@ -206,6 +206,12 @@ test.describe('vitrines por linha', () => {
   });
 });
 
+test('link de convite na página inicial leva à tela de nova senha', async ({ page }) => {
+  await page.goto('/#access_token=abc&refresh_token=def&type=invite');
+  await expect(page).toHaveURL(/\/admin\/nova-senha/);
+  await expect(page.getByText(/Link inválido ou expirado/i)).toBeVisible();
+});
+
 test.describe('contato', () => {
   test('mapa, como chegar e validação do formulário', async ({ page }) => {
     await page.goto('/contato', { waitUntil: 'networkidle' });

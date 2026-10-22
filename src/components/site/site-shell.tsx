@@ -1,5 +1,6 @@
 import { getCatalogSafe, getSettings } from '@/lib/data';
 import { DEFAULT_QUOTE_MESSAGE, whatsappUrl } from '@/lib/whatsapp';
+import { AuthHashRedirect } from './auth-hash-redirect';
 import { FloatingActions } from './floating-actions';
 import { Footer } from './footer';
 import { Header } from './header';
@@ -26,6 +27,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       <Footer settings={settings} categorias={catalog.categorias} />
       <FloatingActions whatsappHref={whatsappHref} />
       <MobileNav whatsappHref={whatsappHref} />
+      <AuthHashRedirect />
     </QuoteProvider>
   );
 }

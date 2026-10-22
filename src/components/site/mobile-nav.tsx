@@ -61,7 +61,7 @@ export function MobileNav({ whatsappHref }: { whatsappHref: string }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Falar no WhatsApp"
-            className="flex h-16 text-[#0f7a3c] flex-col items-center justify-center gap-1 text-[0.72rem] font-semibold"
+            className="flex h-16 flex-col items-center justify-center gap-1 text-[0.72rem] font-semibold text-[#0f7a3c]"
           >
             <WhatsAppIcon className="size-6" />
             WhatsApp
