@@ -84,6 +84,23 @@ produtos e fotos do Catálogo 2025, testes automatizados, deploy contínuo (push
   falta o DNS no Registro.br.
 - Domínio de envio criado no Resend (São Paulo) para o e-mail de redefinição; falta o DNS.
 
+## Redesign UX/SEO (21/10/2026)
+
+Análise de 7 concorrentes (Castelatto, Solarium, Vigafort, Central do Concreto, ABA, Casa do
+Concreto, Art Glass) e redesign com foco no celular. Documento completo: "Art Terra — Análise de
+mercado e redesign UX/SEO" (Claude Docs).
+
+- Catálogo em 2 colunas no celular, busca fixa, painel de filtros (uso, cor, ordem) e filtro
+  "Onde você vai usar?" (piscina, fachada/muro, calçada/garagem, jardim).
+- Lista de orçamento (`/orcamento`): vários produtos com quantidade e unidade enviados em uma
+  única mensagem de WhatsApp; fica salva no aparelho do visitante.
+- Barra de navegação inferior no celular e CTA fixo na página do produto.
+- Páginas indexáveis por linha (`/catalogo/atermicos`, `/cobogos`, `/pisos`, `/artificios`) com
+  texto, FAQ e dados estruturados (FAQPage, ItemList); `?cat=` antigo redireciona.
+- Home: busca no hero, seletor por uso, "Como pedir" em 3 passos, FAQ e 12 cidades atendidas;
+  LocalBusiness com as cidades; sitemap com as linhas.
+- 30 testes unitários e 53 e2e passando; sem rolagem horizontal de 360 a 1536 px.
+
 ## Pendências
 
 1. **DNS no Registro.br** (zona de `artterraoficial.com.br`):
