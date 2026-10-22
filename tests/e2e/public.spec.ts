@@ -206,6 +206,20 @@ test.describe('vitrines por linha', () => {
   });
 });
 
+test('com itens na lista, as páginas carregam sem erro de hidratação', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/catalogo/cobogos', { waitUntil: 'networkidle' });
+  await page
+    .getByRole('button', { name: /adicionar Cobogó Árabe à lista/i })
+    .first()
+    .click();
+  for (const r of ['/catalogo/cobogos', '/catalogo', '/', '/orcamento']) {
+    await page.goto(r, { waitUntil: 'networkidle' });
+  }
+  expect(errors).toEqual([]);
+});
+
 test('link de convite na página inicial leva à tela de nova senha', async ({ page }) => {
   await page.goto('/#access_token=abc&refresh_token=def&type=invite');
   await expect(page).toHaveURL(/\/admin\/nova-senha/);

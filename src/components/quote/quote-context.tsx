@@ -112,10 +112,32 @@ export function QuoteProvider({ children }: { children: React.ReactNode }) {
   return <QuoteContext.Provider value={value}>{children}</QuoteContext.Provider>;
 }
 
+const noopSubscribe = () => () => {};
+
+/**
+ * True only after THIS component has hydrated. Streamed parts of a page (Suspense) hydrate
+ * later than the provider, so reading the stored list during their hydration would render
+ * "Na lista" where the server rendered "+ Orçar" and break hydration.
+ */
+function useHydrated() {
+  return React.useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
+}
+
 export function useQuote(): QuoteState {
   const ctx = React.useContext(QuoteContext);
   if (!ctx) throw new Error('useQuote must be used inside <QuoteProvider>');
-  return ctx;
+  const hydrated = useHydrated();
+  return React.useMemo(
+    () =>
+      hydrated
+        ? ctx
+        : { ...ctx, items: [], ready: false, contact: EMPTY_CONTACT, has: () => false },
+    [ctx, hydrated],
+  );
 }
 
 export type { Unidade };
