@@ -5,7 +5,7 @@ import { SITE_URL } from '@/lib/site';
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { produtos } = await getCatalogSafe();
+  const { produtos, categorias } = await getCatalogSafe();
   const now = new Date();
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'weekly', priority: 1 },
@@ -20,5 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'monthly',
     priority: 0.8,
   }));
-  return [...staticRoutes, ...productRoutes];
+  const categoryRoutes: MetadataRoute.Sitemap = categorias.map((c) => ({
+    url: `${SITE_URL}/catalogo/${c.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
+  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
 }

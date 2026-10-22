@@ -16,7 +16,7 @@ export function FloatingActions({ whatsappHref }: { whatsappHref: string }) {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 flex flex-col items-center gap-3 sm:right-6 sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))]">
+    <div className="floating-actions pointer-events-none fixed right-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-30 flex flex-col items-center gap-3 sm:right-6 md:bottom-[calc(1.5rem+env(safe-area-inset-bottom))]">
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -35,7 +35,7 @@ export function FloatingActions({ whatsappHref }: { whatsappHref: string }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar no WhatsApp"
-        className="animate-wa-pulse bg-whatsapp hover:bg-whatsapp-dark pointer-events-auto grid size-14 place-items-center rounded-full text-white transition-transform duration-200 hover:scale-105"
+        className="animate-wa-pulse bg-whatsapp hover:bg-whatsapp-dark pointer-events-auto hidden size-14 place-items-center rounded-full text-white transition-transform duration-200 hover:scale-105 md:grid"
       >
         <WhatsAppIcon className="size-7" />
       </a>

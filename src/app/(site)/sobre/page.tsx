@@ -197,7 +197,7 @@ export default async function SobrePage() {
               com os pés molhados.
             </p>
             <Button asChild variant="outlineLight" size="lg" className="mt-8 w-full sm:w-auto">
-              <Link href="/catalogo?cat=atermicos">
+              <Link href="/catalogo/atermicos">
                 Ver a Linha Atérmica
                 <ArrowRight />
               </Link>

@@ -240,7 +240,7 @@ export function CategoriesManager({ initial }: { initial: AdminCategoria[] }) {
               label="Endereço (slug)"
               htmlFor="cat-slug"
               error={errors.slug}
-              hint={`Usado no link: /catalogo?cat=${form.slug || 'nome'}. Evite mudar depois de divulgar.`}
+              hint={`Usado no link: /catalogo/${form.slug || 'nome'}. Evite mudar depois de divulgar.`}
             >
               <Input
                 id="cat-slug"

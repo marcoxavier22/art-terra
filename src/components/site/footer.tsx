@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Mail, MapPin } from 'lucide-react';
 import { MAPS_DIRECTIONS_URL, NAV_LINKS } from '@/lib/site';
+import { CIDADES_ATENDIDAS } from '@/lib/seo-content';
 import { formatWhatsappDisplay } from '@/lib/text';
 import { whatsappUrl } from '@/lib/whatsapp';
 import type { CategoriaComContagem, Settings } from '@/lib/types';
@@ -33,6 +34,9 @@ export function Footer({
             Fábrica de pisos, cobogós, bordas atérmicas e artefatos de concreto. Direto de
             Pinheiral/RJ para a sua obra.
           </p>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
+            Entregamos em {CIDADES_ATENDIDAS.slice(0, -1).join(', ')} e {CIDADES_ATENDIDAS.at(-1)}.
+          </p>
         </div>
 
         <nav aria-label="Navegação do rodapé">
@@ -47,17 +51,22 @@ export function Footer({
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/orcamento" className={linkClass}>
+                Lista de orçamento
+              </Link>
+            </li>
           </ul>
         </nav>
 
-        <nav aria-label="Linhas do catálogo">
+        <nav aria-label="Catálogo (rodapé)">
           <h2 className="font-heading text-brand-orange text-sm font-semibold tracking-[0.16em] uppercase">
             Catálogo
           </h2>
           <ul className="mt-3">
             {categorias.map((c) => (
               <li key={c.id}>
-                <Link href={`/catalogo?cat=${c.slug}`} className={linkClass}>
+                <Link href={`/catalogo/${c.slug}`} className={linkClass}>
                   {c.nome}
                 </Link>
               </li>

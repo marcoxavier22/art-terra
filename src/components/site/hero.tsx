@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ChevronDown, Factory, Layers3, Truck } from 'lucide-react';
+import { ArrowRight, ChevronDown, Factory, Layers3, Search, Truck } from 'lucide-react';
 import heroFachada from '@/assets/site/hero-fachada.webp';
 import { BLUR_DATA_URL } from '@/lib/site';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ export function Hero({
   return (
     <section
       aria-labelledby="hero-titulo"
-      className="bg-brand-green-dark relative isolate flex min-h-[calc(100svh-68px)] items-center overflow-hidden sm:min-h-[78vh]"
+      className="bg-brand-green-dark relative isolate flex min-h-[min(calc(100svh-68px),44rem)] items-center overflow-hidden sm:min-h-[78vh]"
     >
       {/* photo: full-bleed on phones, right-hand 62% on desktop */}
       <div className="absolute inset-0 -z-20 lg:left-auto lg:w-[62%]">
@@ -67,15 +67,15 @@ export function Hero({
         className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,rgb(31_55_33/0.93)_0%,rgb(31_55_33/0.8)_50%,rgb(31_55_33/0.5)_100%)] lg:bg-[linear-gradient(90deg,rgb(31_55_33)_0%,rgb(31_55_33)_36%,rgb(31_55_33/0.88)_46%,rgb(31_55_33/0.4)_68%,rgb(31_55_33/0.06)_100%)]"
       />
 
-      <div className="container-site py-14 sm:py-20">
+      <div className="container-site py-10 sm:py-20">
         <div className="max-w-[40rem]">
           <p className="font-heading text-brand-orange flex items-center gap-2.5 text-[0.78rem] font-semibold tracking-[0.22em] uppercase sm:text-sm">
             <span aria-hidden className="bg-brand-orange inline-block size-2.5 shrink-0" />
-            Pisos · Vasos · Revestimentos
+            Pisos · Cobogós · Bordas atérmicas
           </p>
           <h1
             id="hero-titulo"
-            className="font-heading mt-5 text-[clamp(2.25rem,5vw,4rem)] leading-[1.06] font-extrabold tracking-tight text-white"
+            className="font-heading mt-4 text-[clamp(2.1rem,5vw,4rem)] leading-[1.06] font-extrabold tracking-tight text-white"
           >
             {titulo}
           </h1>
@@ -83,7 +83,38 @@ export function Hero({
             {subtitulo}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          {/* quick search straight into the catalogue (works without JS: plain GET form) */}
+          <form
+            action="/catalogo"
+            method="get"
+            role="search"
+            className="relative mt-7 max-w-[30rem]"
+          >
+            <label htmlFor="hero-busca" className="sr-only">
+              Buscar no catálogo
+            </label>
+            <Search
+              className="text-muted pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2"
+              aria-hidden
+            />
+            <input
+              id="hero-busca"
+              name="q"
+              type="search"
+              enterKeyHint="search"
+              autoComplete="off"
+              placeholder="O que você procura? Ex.: cobogó"
+              className="text-ink placeholder:text-muted/80 focus-visible:ring-brand-orange h-13 w-full rounded-[12px] border-0 bg-white pr-28 pl-12 text-base shadow-lg focus-visible:ring-2"
+            />
+            <button
+              type="submit"
+              className="bg-brand-orange text-brand-green-dark hover:bg-brand-orange-dark font-heading absolute top-1.5 right-1.5 h-10 rounded-[9px] px-4 text-sm font-semibold hover:text-white"
+            >
+              Buscar
+            </button>
+          </form>
+
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/catalogo">
                 Ver Catálogo
@@ -98,7 +129,7 @@ export function Hero({
             </Button>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-2">
+          <ul className="mt-7 hidden flex-wrap gap-2 sm:flex">
             {badges.map(({ icon: Icon, label }) => (
               <li
                 key={label}
@@ -113,7 +144,7 @@ export function Hero({
       </div>
 
       <a
-        href="#sobre"
+        href="#usos"
         aria-label="Rolar para a próxima seção"
         className="hover:text-brand-orange absolute bottom-4 left-1/2 hidden size-11 -translate-x-1/2 place-items-center rounded-full text-white/80 md:grid"
       >

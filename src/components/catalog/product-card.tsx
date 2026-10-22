@@ -1,16 +1,25 @@
 import Link from 'next/link';
-import { Layers, Ruler, SquareStack, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
+import { defaultUnidade } from '@/lib/quote';
 import { faceLabel } from '@/lib/text';
 import { productMessage, whatsappUrl } from '@/lib/whatsapp';
 import type { Produto } from '@/lib/types';
-import { Button } from '@/components/ui/button';
 import { WhatsAppIcon } from '@/components/ui/icons';
+import { AddToQuoteButton } from '@/components/quote/add-to-quote-button';
 import { ColorSwatches } from './color-swatches';
 import { ProductImage } from './product-image';
 
 export const CARD_SIZES =
-  '(min-width: 1536px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 94vw';
+  '(min-width: 1536px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 46vw, 48vw';
 
+export function productHref(produto: Pick<Produto, 'slug' | 'categoria'>) {
+  return `/catalogo/${produto.categoria.slug}/${produto.slug}`;
+}
+
+/**
+ * Catalogue card. Two per row on phones: the whole card opens the product, and the
+ * footer has "+ Orçamento" (quote list) and WhatsApp side by side.
+ */
 export function ProductCard({
   produto,
   whatsapp,
@@ -22,19 +31,25 @@ export function ProductCard({
   priority?: boolean;
   showCategory?: boolean;
 }) {
-  const href = `/catalogo/${produto.categoria.slug}/${produto.slug}`;
+  const href = productHref(produto);
   const [firstMeasure, ...otherMeasures] = produto.medidas;
   const face = faceLabel(produto.face);
+  const specs = [
+    firstMeasure
+      ? `${firstMeasure.valor}${otherMeasures.length ? ` +${otherMeasures.length}` : ''}`
+      : null,
+    produto.rendimento && produto.rendimento.length <= 16 ? produto.rendimento : null,
+  ].filter(Boolean);
 
   return (
-    <article className="group border-line shadow-soft focus-within:shadow-lift hover:shadow-lift relative flex h-full flex-col overflow-hidden rounded-[12px] border bg-white transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5">
-      <div className="bg-sand relative aspect-[4/3] overflow-hidden">
+    <article className="group border-line focus-within:shadow-lift hover:shadow-lift relative flex h-full flex-col overflow-hidden rounded-[12px] border bg-white transition-shadow duration-300">
+      <div className="bg-sand relative aspect-square overflow-hidden sm:aspect-[4/3]">
         <ProductImage
           src={produto.imagem_principal_url}
           alt={produto.nome}
           sizes={CARD_SIZES}
           priority={priority}
-          className="transition-transform duration-500 group-hover:scale-[1.03]"
+          className="transition-transform duration-500 group-hover:scale-[1.04]"
         />
         {produto.imagem_aplicacao_url ? (
           <div
@@ -44,25 +59,25 @@ export function ProductCard({
             <ProductImage src={produto.imagem_aplicacao_url} alt="" sizes={CARD_SIZES} />
           </div>
         ) : null}
-        <div className="pointer-events-none absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+        <div className="pointer-events-none absolute inset-x-2 top-2 flex items-start justify-between gap-1.5 sm:inset-x-3 sm:top-3">
           {showCategory ? (
-            <span className="font-heading text-brand-green rounded-md bg-white/92 px-2 py-1 text-[0.7rem] font-semibold tracking-wide uppercase shadow-sm">
+            <span className="font-heading text-brand-green max-w-[70%] truncate rounded-md bg-white/92 px-1.5 py-0.5 text-[0.62rem] font-semibold tracking-wide uppercase shadow-sm sm:px-2 sm:py-1 sm:text-[0.7rem]">
               {produto.categoria.nome}
             </span>
           ) : (
             <span />
           )}
           {produto.destaque ? (
-            <span className="bg-brand-orange font-heading text-brand-green-dark flex items-center gap-1 rounded-md px-2 py-1 text-[0.7rem] font-semibold tracking-wide uppercase shadow-sm">
+            <span className="bg-brand-orange font-heading text-brand-green-dark flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[0.62rem] font-semibold tracking-wide uppercase shadow-sm sm:px-2 sm:py-1 sm:text-[0.7rem]">
               <Star className="size-3 fill-current" aria-hidden />
-              Destaque
+              <span className="sr-only sm:not-sr-only">Destaque</span>
             </span>
           ) : null}
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <h3 className="font-heading text-brand-green text-lg leading-snug font-semibold">
+      <div className="flex flex-1 flex-col p-3 sm:p-5">
+        <h3 className="font-heading text-brand-green line-clamp-2 text-[0.95rem] leading-snug font-semibold sm:text-lg">
           {/* stretched link: the whole card is clickable and reachable by keyboard */}
           <Link
             href={href}
@@ -72,69 +87,36 @@ export function ProductCard({
           </Link>
         </h3>
 
-        <dl className="text-ink/85 mt-3 space-y-1.5 text-sm">
-          {firstMeasure ? (
-            <div className="flex items-start gap-2">
-              <dt className="text-muted flex shrink-0 items-center gap-2">
-                <Ruler className="text-brand-orange-ink size-4" aria-hidden />
-                <span className="sr-only">Medidas</span>
-              </dt>
-              <dd className="min-w-0">
-                <span className="break-words">
-                  {firstMeasure.rotulo ? `${firstMeasure.rotulo}: ` : ''}
-                  {firstMeasure.valor}
-                </span>
-                {otherMeasures.length > 0 ? (
-                  <span
-                    className="bg-sand text-muted ml-1.5 rounded px-1.5 py-0.5 text-xs font-semibold"
-                    title={otherMeasures.map((m) => m.valor).join(' · ')}
-                  >
-                    +{otherMeasures.length}
-                    <span className="sr-only"> outras medidas</span>
-                  </span>
-                ) : null}
-              </dd>
-            </div>
-          ) : null}
-          {produto.rendimento ? (
-            <div className="flex items-start gap-2">
-              <dt className="text-muted flex shrink-0 items-center gap-2">
-                <SquareStack className="text-brand-orange-ink size-4" aria-hidden />
-                <span className="sr-only">Rendimento</span>
-              </dt>
-              <dd>{produto.rendimento}</dd>
-            </div>
-          ) : null}
-          {face ? (
-            <div className="flex items-start gap-2">
-              <dt className="text-muted flex shrink-0 items-center gap-2">
-                <Layers className="text-brand-orange-ink size-4" aria-hidden />
-                <span className="sr-only">Face</span>
-              </dt>
-              <dd>{face}</dd>
-            </div>
-          ) : null}
-        </dl>
+        {specs.length || face ? (
+          <p className="text-muted mt-1 text-[0.78rem] leading-snug tabular-nums sm:mt-1.5 sm:text-sm">
+            {[...specs, face].filter(Boolean).join(' · ')}
+          </p>
+        ) : null}
 
-        <ColorSwatches cores={produto.cores} size="sm" className="mt-3.5" />
+        <ColorSwatches cores={produto.cores} max={5} size="sm" className="mt-2.5 sm:mt-3" />
 
-        <div className="relative z-10 mt-auto grid grid-cols-1 gap-2 pt-5">
-          <Button asChild variant="outline" size="sm" className="min-h-11">
-            <Link href={href} aria-label={`Ver detalhes: ${produto.nome}`}>
-              Ver detalhes
-            </Link>
-          </Button>
-          <Button asChild variant="whatsapp" size="sm" className="min-h-11">
-            <a
-              href={whatsappUrl(whatsapp, productMessage(produto.nome))}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Consultar no WhatsApp: ${produto.nome}`}
-            >
-              <WhatsAppIcon />
-              Consultar no WhatsApp
-            </a>
-          </Button>
+        <div className="relative z-10 mt-auto flex gap-2 pt-3 sm:pt-4">
+          <AddToQuoteButton
+            compact
+            className="flex-1"
+            produto={{
+              id: produto.id,
+              nome: produto.nome,
+              href,
+              imagem: produto.imagem_principal_url,
+              defaultUnidade: defaultUnidade(produto),
+            }}
+          />
+          <a
+            href={whatsappUrl(whatsapp, productMessage(produto.nome))}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Consultar no WhatsApp: ${produto.nome}`}
+            title="Consultar no WhatsApp"
+            className="bg-whatsapp hover:bg-whatsapp-dark grid size-11 shrink-0 place-items-center rounded-[10px] text-[#06281a] transition-colors"
+          >
+            <WhatsAppIcon className="size-5" />
+          </a>
         </div>
       </div>
     </article>

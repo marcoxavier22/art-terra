@@ -37,7 +37,7 @@ export function ColorSwatches({
               style={swatchStyle(cor.hex)}
               className={cn(
                 'border-ink/25 relative z-10 inline-block rounded-full border shadow-[inset_0_0_0_1px_rgb(255_255_255/0.35)]',
-                size === 'md' ? 'size-7' : 'size-6',
+                size === 'md' ? 'size-7' : 'size-5 sm:size-6',
               )}
             />
           </Tooltip>

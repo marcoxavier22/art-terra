@@ -56,7 +56,7 @@ test.describe('painel', () => {
     // public site reflects it without a deploy
     await page.goto(`/catalogo?q=${encodeURIComponent(nome)}`);
     await expect(page.getByRole('heading', { name: nome })).toBeVisible();
-    await page.getByRole('link', { name: `Ver detalhes: ${nome}` }).click();
+    await page.getByRole('heading', { name: nome }).getByRole('link').click();
     await expect(page.locator('h1')).toHaveText(nome);
     const productUrl = page.url();
 

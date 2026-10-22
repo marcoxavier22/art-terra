@@ -6,5 +6,5 @@ import { CACHE_TAGS } from '@/lib/site';
 export async function retryCatalog() {
   revalidateTag(CACHE_TAGS.products);
   revalidateTag(CACHE_TAGS.categories);
-  revalidatePath('/catalogo');
+  revalidatePath('/catalogo', 'layout');
 }

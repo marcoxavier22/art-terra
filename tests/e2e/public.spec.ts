@@ -4,11 +4,12 @@ const ROUTES: [string, RegExp][] = [
   ['/', /Elegância atemporal/i],
   ['/sobre', /Solidez, sofisticação e aparência/i],
   ['/contato', /.+/],
-  ['/catalogo', /Catálogo 2025/i],
-  ['/catalogo?cat=atermicos', /Catálogo 2025/i],
-  ['/catalogo?cat=cobogos', /Catálogo 2025/i],
-  ['/catalogo?cat=pisos', /Catálogo 2025/i],
-  ['/catalogo?cat=artificios', /Catálogo 2025/i],
+  ['/catalogo', /Catálogo de produtos/i],
+  ['/catalogo/atermicos', /Bordas e pisos atérmicos/i],
+  ['/catalogo/cobogos', /Cobogós de concreto/i],
+  ['/catalogo/pisos', /Pisos de concreto/i],
+  ['/catalogo/artificios', /Artefatos de concreto/i],
+  ['/orcamento', /Lista de orçamento/i],
   ['/catalogo/cobogos/cobogo-circulo', /Cobogó Círculo/i],
   ['/privacidade', /Privacidade/i],
 ];
@@ -47,6 +48,7 @@ test.describe('rotas públicas', () => {
     expect(sitemap.status()).toBe(200);
     const xml = await sitemap.text();
     expect(xml).toContain('/catalogo/cobogos/cobogo-circulo');
+    expect(xml).toContain('/catalogo/cobogos</loc>');
     expect(xml).not.toContain('/admin');
     const robots = await (await request.get('/robots.txt')).text();
     expect(robots).toMatch(/Disallow: \/admin/);
@@ -59,21 +61,57 @@ test.describe('catálogo', () => {
     await expect(page.getByText(/Exibindo 35 produtos/i)).toBeVisible();
     const tabs = page.locator('#conteudo').getByRole('navigation', { name: 'Linhas do catálogo' });
     await expect(tabs).toContainText('35');
-    await expect(tabs.getByRole('button', { name: /Cobogós/ })).toContainText('12');
-    await expect(tabs.getByRole('button', { name: /Pisos/ })).toContainText('11');
-    await expect(tabs.getByRole('button', { name: /Linha Atérmica/ })).toContainText('5');
-    await expect(tabs.getByRole('button', { name: /Artifícios/ })).toContainText('7');
+    await expect(tabs.getByRole('link', { name: /Cobogós/ })).toContainText('12');
+    await expect(tabs.getByRole('link', { name: /Pisos/ })).toContainText('11');
+    await expect(tabs.getByRole('link', { name: /Linha Atérmica/ })).toContainText('5');
+    await expect(tabs.getByRole('link', { name: /Artifícios/ })).toContainText('7');
   });
 
-  test('aba de categoria atualiza a URL sem recarregar', async ({ page }) => {
+  test('linha do catálogo tem página própria com FAQ e dados estruturados', async ({ page }) => {
     await page.goto('/catalogo');
     await page
       .locator('#conteudo')
       .getByRole('navigation', { name: 'Linhas do catálogo' })
-      .getByRole('button', { name: /Cobogós/ })
+      .getByRole('link', { name: /Cobogós/ })
       .click();
-    await expect(page).toHaveURL(/cat=cobogos/);
+    await expect(page).toHaveURL(/\/catalogo\/cobogos$/);
     await expect(page.getByText(/Exibindo 12 produtos/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Perguntas sobre cobogós/i })).toBeVisible();
+    const ld = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(ld.some((t) => t.includes('"FAQPage"'))).toBe(true);
+    await expect(page).toHaveTitle(/Cobogó de Concreto/);
+  });
+
+  test('link antigo ?cat= redireciona para a página da linha', async ({ page }) => {
+    await page.goto('/catalogo?cat=pisos');
+    await expect(page).toHaveURL(/\/catalogo\/pisos$/);
+    await expect(page.locator('h1')).toHaveText(/Pisos de concreto/);
+  });
+
+  test('filtro por uso (piscina) mostra só peças de piscina', async ({ page }) => {
+    await page.goto('/catalogo?uso=piscina');
+    await expect(page.getByText(/Exibindo 5 produtos/i)).toBeVisible();
+  });
+
+  test('lista de orçamento: adiciona do card e envia tudo em uma mensagem', async ({ page }) => {
+    await page.goto('/catalogo/cobogos', { waitUntil: 'networkidle' });
+    await page
+      .getByRole('button', { name: 'Adicionar Cobogó Círculo à lista de orçamento' })
+      .click();
+    await page.getByRole('button', { name: 'Adicionar Cobogó Árabe à lista de orçamento' }).click();
+    await page.goto('/orcamento', { waitUntil: 'networkidle' });
+    await expect(page.getByRole('heading', { name: '2 produtos' })).toBeVisible();
+    await page.getByLabel('Quantidade de Cobogó Círculo').fill('20');
+    await page.getByLabel('Cidade da obra').fill('Volta Redonda');
+    const href =
+      (await page.getByRole('link', { name: /Enviar lista pelo WhatsApp/ }).getAttribute('href')) ??
+      '';
+    const text = decodeURIComponent(href.split('text=')[1] ?? '');
+    expect(text).toContain('1. Cobogó Círculo');
+    expect(text).toContain('2. Cobogó Árabe');
+    expect(text).toContain('Cidade da obra: Volta Redonda');
+    await page.getByRole('button', { name: 'Remover Cobogó Árabe da lista' }).click();
+    await expect(page.getByRole('heading', { name: '1 produto' })).toBeVisible();
   });
 
   test('busca ignora acentos e maiúsculas; estado vazio oferece limpar', async ({ page }) => {
@@ -94,7 +132,7 @@ test.describe('catálogo', () => {
   });
 
   test('botão do WhatsApp leva a mensagem do produto', async ({ page }) => {
-    await page.goto('/catalogo?cat=cobogos');
+    await page.goto('/catalogo/cobogos');
     const link = page.getByRole('link', { name: 'Consultar no WhatsApp: Cobogó Círculo' });
     const href = (await link.getAttribute('href')) ?? '';
     expect(href).toMatch(/^https:\/\/wa\.me\/55\d{10,11}\?text=/);

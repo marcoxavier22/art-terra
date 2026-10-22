@@ -3,6 +3,8 @@ import { DEFAULT_QUOTE_MESSAGE, whatsappUrl } from '@/lib/whatsapp';
 import { FloatingActions } from './floating-actions';
 import { Footer } from './footer';
 import { Header } from './header';
+import { MobileNav } from './mobile-nav';
+import { QuoteProvider } from '@/components/quote/quote-context';
 
 /** Public chrome (header, footer, floating buttons) shared by every public page. */
 export async function SiteShell({ children }: { children: React.ReactNode }) {
@@ -10,7 +12,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
   const whatsappHref = whatsappUrl(settings.whatsapp, DEFAULT_QUOTE_MESSAGE);
 
   return (
-    <>
+    <QuoteProvider>
       <a
         href="#conteudo"
         className="focus:bg-brand-green sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-md focus:px-4 focus:py-3 focus:font-semibold focus:text-white"
@@ -23,6 +25,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       </main>
       <Footer settings={settings} categorias={catalog.categorias} />
       <FloatingActions whatsappHref={whatsappHref} />
-    </>
+      <MobileNav whatsappHref={whatsappHref} />
+    </QuoteProvider>
   );
 }

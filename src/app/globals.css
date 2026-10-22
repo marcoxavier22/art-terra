@@ -65,6 +65,15 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
   }
+  /* room for the phone bottom bar (site pages only; the admin has its own) */
+  @media (max-width: 767px) {
+    body:has([data-sticky-cta][aria-hidden='false']) .floating-actions {
+      bottom: calc(8.75rem + env(safe-area-inset-bottom));
+    }
+    body:has(nav[aria-label='Atalhos']) {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
+  }
   h1,
   h2,
   h3,

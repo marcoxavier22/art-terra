@@ -10,6 +10,7 @@ import { SectionLabel } from '@/components/ui/section-label';
 import { getCatalog, getCatalogSafe, getProduct, getSettings } from '@/lib/data';
 import { breadcrumbJsonLd, metaDescription, productJsonLd } from '@/lib/seo';
 import { faceLabel } from '@/lib/text';
+import { defaultUnidade } from '@/lib/quote';
 import type { Produto } from '@/lib/types';
 
 export const revalidate = 3600;
@@ -20,6 +21,16 @@ type Params = Promise<{ categoria: string; slug: string }>;
 export async function generateStaticParams() {
   const { produtos } = await getCatalogSafe();
   return produtos.map((p) => ({ categoria: p.categoria.slug, slug: p.slug }));
+}
+
+/** "Cobogó Floral 39x39 — Cobogós de Concreto" keeps the measure (a common search term) in the title. */
+function produtoTitle(produto: Produto): string {
+  const medida = produto.medidas[0]?.valor.replace(/\s*cm$/i, '');
+  const withMeasure =
+    medida && !produto.nome.includes(medida.split('x')[0] ?? '~') && produto.medidas.length === 1
+      ? `${produto.nome} ${medida}`
+      : produto.nome;
+  return `${withMeasure} — ${produto.categoria.nome}`;
 }
 
 function fallbackDescription(produto: Produto): string {
@@ -35,7 +46,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const path = `/catalogo/${produto.categoria.slug}/${produto.slug}`;
   const image = produto.imagem_principal_url ?? produto.imagem_aplicacao_url;
   return {
-    title: `${produto.nome} — ${produto.categoria.nome}`,
+    title: produtoTitle(produto),
     description,
     alternates: { canonical: path },
     openGraph: {
@@ -112,7 +123,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   const crumbs = [
     { name: 'Início', path: '/' },
     { name: 'Catálogo', path: '/catalogo' },
-    { name: produto.categoria.nome, path: `/catalogo?cat=${produto.categoria.slug}` },
+    { name: produto.categoria.nome, path: `/catalogo/${produto.categoria.slug}` },
     { name: produto.nome, path: `/catalogo/${produto.categoria.slug}/${produto.slug}` },
   ];
 
@@ -166,7 +177,13 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <div className="mt-8">
               <QuoteBuilder
-                nome={produto.nome}
+                produto={{
+                  id: produto.id,
+                  nome: produto.nome,
+                  href: crumbs[3]!.path,
+                  imagem: produto.imagem_principal_url ?? produto.imagem_aplicacao_url,
+                  defaultUnidade: defaultUnidade(produto),
+                }}
                 whatsapp={settings.whatsapp}
                 cores={produto.cores}
                 medidas={produto.medidas}
@@ -185,7 +202,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             >
               Outros produtos da linha
             </h2>
-            <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+            <ul className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-6 lg:grid-cols-4">
               {relacionados.map((p) => (
                 <li key={p.id}>
                   <ProductCard produto={p} whatsapp={settings.whatsapp} showCategory={false} />

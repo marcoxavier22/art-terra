@@ -13,7 +13,7 @@ export function PieceCalculator({
   onResult,
 }: {
   piecesPerM2: number;
-  onResult?: (summary: string | null) => void;
+  onResult?: (summary: string | null, areaM2: number | null) => void;
 }) {
   const [area, setArea] = React.useState('');
   const [loss, setLoss] = React.useState('10');
@@ -27,8 +27,8 @@ export function PieceCalculator({
     ? `${area.trim()} m² ≈ ${result.total.toLocaleString('pt-BR')} peças (com ${lossValue.toLocaleString('pt-BR')}% de perda)`
     : null;
   React.useEffect(() => {
-    onResult?.(summary);
-  }, [summary, onResult]);
+    onResult?.(summary, result ? areaValue : null);
+  }, [summary, onResult, result, areaValue]);
 
   return (
     <section

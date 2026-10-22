@@ -1,4 +1,5 @@
 import { SITE_NAME, SITE_URL } from './site';
+import { CIDADES_ATENDIDAS, type Faq } from './seo-content';
 import type { Produto, Settings } from './types';
 
 export function absoluteUrl(path: string): string {
@@ -28,10 +29,10 @@ export function localBusinessJsonLd(settings: Settings) {
     },
     areaServed: [
       { '@type': 'AdministrativeArea', name: 'Sul Fluminense' },
-      { '@type': 'City', name: 'Pinheiral' },
-      { '@type': 'City', name: 'Volta Redonda' },
-      { '@type': 'City', name: 'Barra Mansa' },
+      ...CIDADES_ATENDIDAS.map((name) => ({ '@type': 'City', name })),
     ],
+    hasMap: 'https://www.google.com/maps/search/?api=1&query=Art+Terra+Pinheiral+RJ',
+    priceRange: '$$',
     sameAs: [`https://instagram.com/${settings.instagram}`],
     ...(settings.horario_atendimento ? { openingHours: settings.horario_atendimento } : {}),
   };
@@ -80,4 +81,29 @@ export function metaDescription(text: string, max = 155): string {
   if (clean.length <= max) return clean;
   const cut = clean.slice(0, max - 1);
   return `${cut.slice(0, Math.max(cut.lastIndexOf(' '), 60))}…`;
+}
+
+export function faqJsonLd(faqs: readonly Faq[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.pergunta,
+      acceptedAnswer: { '@type': 'Answer', text: f.resposta },
+    })),
+  };
+}
+
+export function itemListJsonLd(produtos: Produto[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: produtos.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/catalogo/${p.categoria.slug}/${p.slug}`),
+      name: p.nome,
+    })),
+  };
 }

@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { WhatsAppIcon } from '@/components/ui/icons';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { QuoteHeaderLink } from '@/components/quote/add-to-quote-button';
 import { LogoLockup } from './logo';
 
 function isActive(pathname: string, href: string) {
@@ -74,7 +75,8 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="green" className="hidden md:inline-flex">
+          <QuoteHeaderLink />
+          <Button asChild variant="green" className="hidden px-3 md:inline-flex xl:px-5">
             <a
               href={whatsappHref}
               target="_blank"
@@ -82,8 +84,7 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
               aria-label="Fale no WhatsApp"
             >
               <WhatsAppIcon />
-              <span className="lg:hidden">WhatsApp</span>
-              <span className="hidden lg:inline">Fale no WhatsApp</span>
+              <span className="hidden xl:inline">Fale no WhatsApp</span>
             </a>
           </Button>
 
@@ -129,6 +130,18 @@ export function Header({ whatsappHref }: { whatsappHref: string }) {
                       </li>
                     );
                   })}
+                  <li>
+                    <SheetClose asChild>
+                      <Link
+                        href="/orcamento"
+                        aria-current={pathname === '/orcamento' ? 'page' : undefined}
+                        className="font-heading text-ink flex min-h-13 items-center gap-3 rounded-[10px] px-3 text-lg font-semibold"
+                      >
+                        <span aria-hidden className="bg-line size-2.5 shrink-0" />
+                        Lista de orçamento
+                      </Link>
+                    </SheetClose>
+                  </li>
                 </ul>
               </nav>
               <div className="border-line border-t p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
