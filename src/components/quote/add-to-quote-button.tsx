@@ -27,7 +27,7 @@ export function AddToQuoteButton({
   const { has, add, ready } = useQuote();
   const inList = ready && has(produto.id);
   const base = cn(
-    'font-heading inline-flex min-h-11 items-center justify-center gap-1 rounded-[10px] px-2 text-sm font-semibold whitespace-nowrap transition-colors sm:gap-1.5 sm:px-3',
+    'font-heading relative inline-flex min-h-11 items-center justify-center gap-1 rounded-[10px] px-2 text-sm font-semibold whitespace-nowrap transition-colors sm:gap-1.5 sm:px-3',
     className,
   );
 
@@ -35,20 +35,18 @@ export function AddToQuoteButton({
     return (
       <Link
         href="/orcamento"
-        aria-label={`${produto.nome} está na lista de orçamento. Ver lista`}
         className={cn(base, 'bg-brand-green/10 text-brand-green hover:bg-brand-green/15')}
       >
         <Check className="size-4 shrink-0" aria-hidden />
         {compact ? (
           <>
-            <span aria-hidden className="sm:hidden">
-              Lista
-            </span>
+            <span className="sm:hidden">Lista</span>
             <span className="hidden sm:inline">Na lista</span>
           </>
         ) : (
           'Na lista'
         )}
+        <span className="sr-only">: {produto.nome} está na lista de orçamento, ver lista</span>
       </Link>
     );
   }
@@ -67,7 +65,6 @@ export function AddToQuoteButton({
           unidade: produto.defaultUnidade,
         })
       }
-      aria-label={`Adicionar ${produto.nome} à lista de orçamento`}
       className={cn(
         base,
         'bg-brand-orange text-brand-green-dark hover:bg-brand-orange-dark hover:text-white',
@@ -76,14 +73,13 @@ export function AddToQuoteButton({
       <Plus className="size-4 shrink-0" aria-hidden />
       {compact ? (
         <>
-          <span aria-hidden className="sm:hidden">
-            Orçar
-          </span>
+          <span className="sm:hidden">Orçar</span>
           <span className="hidden sm:inline">Orçamento</span>
         </>
       ) : (
         'Orçamento'
       )}
+      <span className="sr-only">: adicionar {produto.nome} à lista de orçamento</span>
     </button>
   );
 }

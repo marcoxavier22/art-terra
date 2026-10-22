@@ -104,3 +104,17 @@ describe('usosDoProduto', () => {
     ).toEqual(['calcada']);
   });
 });
+
+describe('parseStoredItems: imagem', () => {
+  it('aceita só fotos do site ou do Supabase Storage', () => {
+    const base = { produtoId: 'a', nome: 'A', href: '/catalogo/x/a' };
+    const img = (imagem: string) => parseStoredItems([{ ...base, imagem }])[0]?.imagem;
+    expect(img('/seed-images/produtos/a.webp')).toBe('/seed-images/produtos/a.webp');
+    expect(img('https://abc.supabase.co/storage/v1/object/public/produtos/a.webp')).toMatch(
+      /^https/,
+    );
+    expect(img('//evil.example/x.png')).toBeNull();
+    expect(img('https://evil.example/x.png')).toBeNull();
+    expect(img('javascript:alert(1)')).toBeNull();
+  });
+});

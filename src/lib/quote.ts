@@ -54,6 +54,13 @@ export function quoteMessage(items: QuoteItem[], contact?: Partial<QuoteContact>
   ].join('\n');
 }
 
+/** Only our own photos or Supabase Storage URLs (anything else would break next/image). */
+function safeImage(v: unknown): string | null {
+  if (typeof v !== 'string' || v.length > 500) return null;
+  if (v.startsWith('/') && !v.startsWith('//')) return v;
+  return /^https:\/\/[a-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\//.test(v) ? v : null;
+}
+
 /** Defensive parse of what was saved in localStorage (it may be old or tampered with). */
 export function parseStoredItems(raw: unknown): QuoteItem[] {
   if (!Array.isArray(raw)) return [];
@@ -83,7 +90,7 @@ export function parseStoredItems(raw: unknown): QuoteItem[] {
         produtoId: o.produtoId,
         nome: o.nome.slice(0, 160),
         href: o.href,
-        imagem: typeof o.imagem === 'string' ? o.imagem : null,
+        imagem: safeImage(o.imagem),
         cor,
         medida,
         quantidade,

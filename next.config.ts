@@ -3,7 +3,28 @@ import type { NextConfig } from 'next';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseHost = supabaseUrl ? new URL(supabaseUrl) : null;
 
+const supabaseOrigin = supabaseHost?.origin ?? '';
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Content Security Policy: only our own origin, Supabase (data + photos) and the Google Maps embed.
+// 'unsafe-inline' is still needed by Next.js inline bootstrap scripts without nonces.
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+  "style-src 'self' 'unsafe-inline'",
+  `img-src 'self' data: blob: ${supabaseOrigin}`,
+  "font-src 'self' data:",
+  `connect-src 'self' ${supabaseOrigin} ${supabaseOrigin.replace(/^http/, 'ws')}`,
+  'frame-src https://www.google.com https://maps.google.com',
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  ...(supabaseOrigin.startsWith('https') ? ['upgrade-insecure-requests'] : []),
+].join('; ');
+
 const securityHeaders = [
+  { key: 'Content-Security-Policy', value: csp },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   // The site embeds Google Maps, but must never be embedded by other sites.

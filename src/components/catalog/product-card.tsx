@@ -44,7 +44,7 @@ export function ProductCard({
 
   return (
     <article className="group border-line focus-within:shadow-lift hover:shadow-lift relative flex h-full flex-col overflow-hidden rounded-[12px] border bg-white transition-shadow duration-300">
-      <div className="bg-sand relative aspect-square overflow-hidden sm:aspect-[4/3]">
+      <div className="bg-sand relative aspect-[5/4] overflow-hidden sm:aspect-[4/3]">
         <CardMedia
           peca={produto.imagem_principal_url}
           aplicacao={produto.imagem_aplicacao_url}

@@ -33,7 +33,10 @@ export function GalleryGrid({ items }: { items: GaleriaItem[] }) {
     <>
       <ul className="grid auto-rows-[9.5rem] grid-cols-2 gap-2.5 sm:auto-rows-[13rem] sm:gap-4 lg:grid-flow-dense lg:auto-rows-[12rem] lg:grid-cols-4">
         {items.map((item, i) => (
-          <li key={item.id} className={cn('relative', SPANS[i % SPANS.length])}>
+          <li
+            key={item.id}
+            className={cn('relative', SPANS[i % SPANS.length], i >= 4 && 'hidden sm:block')}
+          >
             <button
               type="button"
               onClick={() => setIndex(i)}

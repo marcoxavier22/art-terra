@@ -546,7 +546,7 @@ export function CatalogSkeleton() {
         <ul className={GRID}>
           {Array.from({ length: 8 }).map((_, i) => (
             <li key={i} className="border-line overflow-hidden rounded-[12px] border bg-white">
-              <div className="bg-line/70 aspect-square animate-pulse sm:aspect-[4/3]" />
+              <div className="bg-line/70 aspect-[5/4] animate-pulse sm:aspect-[4/3]" />
               <div className="space-y-3 p-3 sm:p-5">
                 <div className="bg-line/70 h-5 w-2/3 animate-pulse rounded" />
                 <div className="bg-line/60 h-4 w-1/2 animate-pulse rounded" />

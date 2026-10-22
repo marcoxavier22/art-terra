@@ -183,7 +183,7 @@ export default async function HomePage() {
                 <li key={c.id}>
                   <Link
                     href={`/catalogo/${c.slug}`}
-                    className="group bg-brand-green-dark shadow-lift relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[12px]"
+                    className="group bg-brand-green-dark shadow-lift relative flex aspect-square flex-col justify-end overflow-hidden rounded-[12px] sm:aspect-[4/5]"
                   >
                     <ProductImage
                       src={c.imagem_capa_url}
@@ -220,7 +220,7 @@ export default async function HomePage() {
 
       {/* ------------------------------- Destaques ------------------------------- */}
       {destaques.length > 0 ? (
-        <section aria-labelledby="destaques-titulo" className="py-14 sm:py-24">
+        <section aria-labelledby="destaques-titulo" className="py-12 sm:py-24">
           <div className="container-site">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -244,8 +244,8 @@ export default async function HomePage() {
               </Link>
             </div>
             <ul className="mt-6 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-6 lg:grid-cols-3">
-              {destaques.map((p) => (
-                <li key={p.id}>
+              {destaques.map((p, i) => (
+                <li key={p.id} className={i >= 4 ? 'hidden lg:block' : undefined}>
                   <ProductCard produto={p} whatsapp={settings.whatsapp} />
                 </li>
               ))}
@@ -255,7 +255,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* ---------------------------- Como pedir orçamento ---------------------------- */}
-      <section aria-labelledby="passos-titulo" className="bg-sand py-14 sm:py-20">
+      <section aria-labelledby="passos-titulo" className="bg-sand py-12 sm:py-20">
         <div className="container-site">
           <SectionLabel>Simples assim</SectionLabel>
           <h2
@@ -264,33 +264,35 @@ export default async function HomePage() {
           >
             Como pedir seu orçamento
           </h2>
-          <ol className="mt-8 grid gap-4 md:grid-cols-3 md:gap-5">
+          <ol className="mt-6 grid gap-3 sm:mt-8 md:grid-cols-3 md:gap-5">
             {PASSOS.map(({ icon: Icon, titulo, texto }, i) => (
               <li
                 key={titulo}
-                className="flex gap-4 rounded-[12px] bg-white p-5 sm:p-6 md:flex-col"
+                className="flex gap-3.5 rounded-[12px] bg-white p-4 sm:gap-4 sm:p-6 md:flex-col"
               >
-                <span className="bg-brand-green relative grid size-12 shrink-0 place-items-center rounded-[10px] text-white">
+                <span className="bg-brand-green relative grid size-10 shrink-0 place-items-center rounded-[10px] text-white sm:size-12">
                   <Icon className="size-6" aria-hidden />
                   <span className="font-label bg-brand-orange text-brand-green-dark absolute -top-2 -right-2 grid size-6 place-items-center rounded-full text-sm">
                     {i + 1}
                   </span>
                 </span>
                 <span>
-                  <h3 className="text-brand-green text-lg font-semibold">{titulo}</h3>
-                  <p className="text-muted mt-1 leading-relaxed">{texto}</p>
+                  <h3 className="text-brand-green text-base font-semibold sm:text-lg">{titulo}</h3>
+                  <p className="text-muted mt-0.5 text-sm leading-relaxed sm:mt-1 sm:text-base">
+                    {texto}
+                  </p>
                 </span>
               </li>
             ))}
           </ol>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
             <Button asChild size="lg">
               <Link href="/catalogo">
                 Montar minha lista
                 <ArrowRight />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline" size="lg" className="hidden sm:inline-flex">
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <WhatsAppIcon />
                 Prefiro falar direto
@@ -301,7 +303,7 @@ export default async function HomePage() {
       </section>
 
       {/* ------------------------------- Sobre ------------------------------- */}
-      <section id="sobre" aria-labelledby="sobre-titulo" className="py-16 sm:py-24">
+      <section id="sobre" aria-labelledby="sobre-titulo" className="py-12 sm:py-24">
         <div className="container-site">
           <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>
@@ -329,7 +331,7 @@ export default async function HomePage() {
                 />
               </Link>
             </div>
-            <div className="relative">
+            <div className="relative hidden sm:block">
               <div
                 aria-hidden
                 className="bg-brand-orange absolute -right-3 -bottom-3 hidden h-2/3 w-2/3 sm:block"
@@ -346,7 +348,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-          <ul className="mt-10 grid grid-cols-2 gap-3 sm:mt-14 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:mt-14 sm:gap-4 lg:grid-cols-4 lg:gap-5">
             {motivos.map(({ icon: Icon, titulo, texto }) => (
               <li key={titulo} className="border-line rounded-[12px] border bg-white p-4 sm:p-6">
                 <span className="bg-brand-orange/15 text-brand-orange-ink grid size-11 place-items-center rounded-[10px]">
@@ -355,7 +357,9 @@ export default async function HomePage() {
                 <h3 className="text-brand-green mt-3 text-base font-semibold sm:text-lg">
                   {titulo}
                 </h3>
-                <p className="text-muted mt-1 text-sm leading-relaxed sm:text-base">{texto}</p>
+                <p className="text-muted mt-1 hidden text-sm leading-relaxed sm:block sm:text-base">
+                  {texto}
+                </p>
               </li>
             ))}
           </ul>
@@ -364,7 +368,7 @@ export default async function HomePage() {
 
       {/* ---------------------------- Projetos realizados ---------------------------- */}
       {galeria.length > 0 ? (
-        <section aria-labelledby="projetos-titulo" className="py-16 sm:py-24">
+        <section aria-labelledby="projetos-titulo" className="py-12 sm:py-24">
           <div className="container-site">
             <SectionLabel>Projetos realizados</SectionLabel>
             <h2
@@ -384,7 +388,7 @@ export default async function HomePage() {
       ) : null}
 
       {/* ------------------------------ FAQ + região ------------------------------ */}
-      <section aria-labelledby="faq-titulo" className="bg-offwhite py-14 sm:py-24">
+      <section aria-labelledby="faq-titulo" className="bg-offwhite py-12 sm:py-24">
         <div className="container-site grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <div>
             <SectionLabel>Dúvidas frequentes</SectionLabel>
@@ -419,10 +423,13 @@ export default async function HomePage() {
       <section
         id="localizacao"
         aria-labelledby="local-titulo"
-        className="border-line border-t bg-white py-16 sm:py-24"
+        className="border-line border-t bg-white py-12 sm:py-24"
       >
         <div className="container-site grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
-          <MapEmbed />
+          {/* phones skip the heavy map iframe: "Como chegar" opens Google Maps instead */}
+          <div className="hidden sm:block">
+            <MapEmbed />
+          </div>
           <div className="flex flex-col justify-center">
             <SectionLabel>Onde estamos</SectionLabel>
             <h2

@@ -14,7 +14,7 @@ export function MapEmbed() {
       loading="lazy"
       referrerPolicy="no-referrer-when-downgrade"
       allowFullScreen
-      className="bg-sand shadow-soft block h-[320px] w-full rounded-[12px] border-0 md:h-[420px]"
+      className="bg-sand shadow-soft block h-[220px] w-full rounded-[12px] border-0 sm:h-[320px] md:h-[420px]"
     />
   );
 }
