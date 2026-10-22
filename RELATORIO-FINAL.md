@@ -101,27 +101,24 @@ mercado e redesign UX/SEO" (Claude Docs).
   LocalBusiness com as cidades; sitemap com as linhas.
 - 30 testes unitários e 53 e2e passando; sem rolagem horizontal de 360 a 1536 px.
 
+## Domínio no ar (22/10/2026)
+
+- `https://artterraoficial.com.br` publicado com HTTPS; `www` redireciona (308) para o domínio.
+- DNS no Registro.br: A, CNAME `www`, DKIM/SPF/MX do Resend e DMARC (`_dmarc` = `v=DMARC1; p=none;`).
+- Resend: domínio **verificado** (sa-east-1).
+- Vercel: `NEXT_PUBLIC_SITE_URL = https://artterraoficial.com.br`, novo deploy feito; sitemap,
+  canonical e dados estruturados já usam o domínio.
+- Supabase: Site URL = `https://artterraoficial.com.br`; Redirect URLs incluem o domínio, o `www`
+  e os endereços da Vercel.
+
 ## Pendências
 
-1. **DNS no Registro.br** (zona de `artterraoficial.com.br`):
-
-   | Tipo  | Nome                | Valor                                                   |
-   | ----- | ------------------- | ------------------------------------------------------- |
-   | A     | (vazio)             | `76.76.21.21`                                           |
-   | CNAME | `www`               | `cname.vercel-dns.com`                                  |
-   | TXT   | `resend._domainkey` | chave DKIM mostrada no Resend                           |
-   | MX    | `send`              | `feedback-smtp.sa-east-1.amazonses.com` (prioridade 10) |
-   | TXT   | `send`              | `v=spf1 include:amazonses.com ~all`                     |
-   | CNAME | `rsend`             | `send.forge.rmta.net`                                   |
-
-2. **Supabase → Authentication → URL Configuration:** adicionar
-   `https://artterraoficial.com.br/**` às Redirect URLs **antes** de divulgar o domínio; depois que
-   o domínio abrir, trocar a Site URL para `https://artterraoficial.com.br`.
-3. **Supabase → Authentication → SMTP Settings** (depois que o Resend verificar o domínio):
-   host `smtp.resend.com`, porta `465`, usuário `resend`, senha = uma API key do Resend,
-   remetente `nao-responda@artterraoficial.com.br`, nome `Art Terra`. Sem isso, o Supabase usa o
-   servidor de teste: no máximo ~2 e-mails por hora e só para e-mails da equipe do Supabase.
-4. Na Vercel, trocar `NEXT_PUBLIC_SITE_URL` para `https://artterraoficial.com.br` e publicar de novo.
+1. **Supabase → Authentication → Emails → SMTP Settings** (só o dono, porque exige a chave do
+   Resend): ligar "Enable custom SMTP" e preencher host `smtp.resend.com`, porta `465`,
+   usuário `resend`, senha = uma API key do Resend (permissão "Sending access", domínio
+   artterraoficial.com.br), remetente `nao-responda@artterraoficial.com.br`, nome `Art Terra`.
+   Sem isso, o e-mail de redefinição de senha sai pelo servidor de teste do Supabase (~2 por hora).
+2. Google Search Console: adicionar o domínio e enviar `https://artterraoficial.com.br/sitemap.xml`.
 
 ## Não feito
 
