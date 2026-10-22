@@ -111,14 +111,50 @@ mercado e redesign UX/SEO" (Claude Docs).
 - Supabase: Site URL = `https://artterraoficial.com.br`; Redirect URLs incluem o domínio, o `www`
   e os endereços da Vercel.
 
+## Auditoria de segurança (22/10/2026)
+
+Testes feitos em produção como visitante (sem login), direto na API do Supabase e no site:
+
+| Teste | Resultado |
+| --- | --- |
+| Ler mensagens de contato / lista de admins | Bloqueado (401) |
+| Criar, alterar ou apagar produto, categoria ou configuração | Bloqueado (401) |
+| Ver produtos inativos | Lista vazia |
+| Enviar arquivo ao Storage | Bloqueado (403) |
+| Gravar mensagem sem passar pelo site | Bloqueado (segredo do formulário) |
+| Cadastro público de contas | Desligado |
+| Formulário com dados inválidos / texto gigante | Rejeitado (422) |
+| Ações do painel sem ser admin | Todas exigem admin no servidor |
+| Segredos no histórico do Git | Nenhum encontrado |
+
+Corrigido nesta rodada: Content-Security-Policy; Next 15.5.28, React 19.1.10 e PostCSS >= 8.5.23
+(`pnpm audit`: 0 vulnerabilidades); `/api/keepalive` protegido por `CRON_SECRET`; ação pública
+"Tentar de novo" do catálogo limitada a 1 vez a cada 30 s; lista de orçamento só aceita fotos do
+site ou do Supabase; links de convite do Supabase abrem a tela de criar senha.
+
+Pendências de segurança:
+
+1. **Repositório privado no GitHub:** iniciado; falta confirmar o acesso (GitHub Mobile ou código
+   por e-mail) em Settings → Danger Zone → Change visibility → Make private.
+2. **Proteção contra senhas vazadas** (Supabase → Authentication → Attack Protection): exige o
+   plano Pro do Supabase.
+3. **Backups diários:** só no Supabase Pro. No plano grátis, exportar o banco periodicamente.
+4. **Vercel Hobby não permite uso comercial:** migrar o projeto para o Vercel Pro (US$ 20/mês)
+   antes de cobrar do cliente.
+5. CSP ainda usa `'unsafe-inline'` para scripts (exigência do Next.js sem nonce); risco baixo,
+   pois o site não exibe HTML enviado por visitantes.
+
 ## Pendências
 
-1. **Supabase → Authentication → Emails → SMTP Settings** (só o dono, porque exige a chave do
+1. ~~SMTP pelo Resend~~ — **feito pelo dono em 22/10/2026.** Referência: **Supabase → Authentication → Emails → SMTP Settings** (só o dono, porque exige a chave do
    Resend): ligar "Enable custom SMTP" e preencher host `smtp.resend.com`, porta `465`,
    usuário `resend`, senha = uma API key do Resend (permissão "Sending access", domínio
    artterraoficial.com.br), remetente `nao-responda@artterraoficial.com.br`, nome `Art Terra`.
    Sem isso, o e-mail de redefinição de senha sai pelo servidor de teste do Supabase (~2 por hora).
 2. Google Search Console: adicionar o domínio e enviar `https://artterraoficial.com.br/sitemap.xml`.
+3. Admin `contatoartterra@gmail.com`: convidar pelo Supabase (Authentication → Users → Invite user)
+   e depois liberar como admin (`insert into public.admin_users (user_id) select id from auth.users
+   where email = 'contatoartterra@gmail.com';`).
 
 ## Não feito
 
